@@ -122,6 +122,40 @@ An absolute URL for the part's documentation or support page. Use a stable HTTPS
 "helpURL" : "https://example.com/parts/callout/help"
 ```
 
+<h3 class="property-heading"><code>icon</code></h3>
+<div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: generic mark, gray</span></div>
+
+The part's artwork: one square single-colour glyph plus a system tint. Foundry renders the glyph as a stencil — only its shape and opacity matter — painted white on a tint-filled tile in the Parts panel, and painted in the tint directly in the Structure tree. The system tints adapt to light and dark appearance automatically, so no dark variants exist.
+
+```json
+"icon" : {
+    "file" : "icon.svg",
+    "tint" : "blue"
+}
+```
+
+<h3 class="property-heading"><code>icon.file</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span></div>
+
+A square SVG in `Resources/`, at most 64 KiB, drawn with `fill="currentColor"`. Draw the glyph to the edges of the viewBox — the viewBox is the glyph's bounding box, and Foundry supplies all whitespace, fitting the glyph into the same padded area it uses for SF Symbols so both kinds render at one size. Hard-coded colours, gradients, and embedded images are ignored — the file renders as a single-colour stencil — and validation warns when it finds them.
+
+<h3 class="property-heading"><code>icon.symbol</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span></div>
+
+An SF Symbol name, for parts without drawn artwork. When both `file` and `symbol` are declared the file is used and the symbol is its fallback. A symbol name the running system does not recognise falls back to the generic part mark.
+
+```json
+"icon" : {
+    "symbol" : "photo",
+    "tint" : "green"
+}
+```
+
+<h3 class="property-heading"><code>icon.tint</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: gray</span></div>
+
+One of `red`, `orange`, `yellow`, `green`, `mint`, `teal`, `cyan`, `blue`, `indigo`, `purple`, `pink`, `brown`, or `gray`, mapping to the macOS system colours. An unrecognised token renders as gray and reports a validation error.
+
 <div class="guidance" markdown="1">
 <h3>How Foundry presents the part</h3>
 
@@ -140,6 +174,10 @@ Parts loaded from a development pack receive a small red dot beside their title.
 "description" : "Highlights a short piece of important content.",
 "author" : "Example Parts",
 "group" : "Content",
+"icon" : {
+    "file" : "icon.svg",
+    "tint" : "blue"
+},
 "showsInPartLibrary" : false,
 "tags" : [
     "notice",

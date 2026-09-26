@@ -39,14 +39,15 @@ Most groups supply values but do not style or script the part. Use their `contro
 <a class="card" href="sizing-control-group.html"><strong>sizing</strong><p>Width, maximum width, minimum height and height modes.</p></a>
 <a class="card" href="borders-control-group.html"><strong>borders</strong><p>Border width and style, colour and corner radius.</p></a>
 <a class="card" href="effects-control-group.html"><strong>effects</strong><p>Framework shadow and opacity.</p></a>
+<a class="card" href="flexbox-control-group.html"><strong>flexbox</strong><p>Direction, wrapping, gaps, alignment and distribution for flex containers.</p></a>
 <a class="card" href="reveal-control-group.html"><strong>reveal</strong><p>Accessible GSAP entrance effects activated by ScrollTrigger.</p></a>
-<a class="card" href="layout-item-control-group.html"><strong>layoutItem</strong><p>Flex and grid settings applied by a parent layout.</p></a>
+<a class="card" href="layout-control-group.html"><strong>layout</strong><p>Positioning and display: position, z-index, offsets, visibility, overflow, isolation.</p></a>
 <a class="card" href="advanced-control-group.html"><strong>advanced</strong><p>Author-set HTML ID, classes, and custom attributes on the root element.</p></a>
 </div>
 
 ## Override generated defaults
 
-Spacing, Sizing, Borders, Effects, Reveal and Layout item accept `defaultOverrides`. Its keys are generated control IDs from that group's reference page. Each value replaces the complete base default for that control; it does not merge with the original value.
+Spacing, Sizing, Borders, Effects, Flexbox, Reveal and Layout accept `defaultOverrides`. Its keys are generated control IDs from that group's reference page. Each value replaces the complete base default for that control; it does not merge with the original value.
 
 ```json
 {
@@ -65,10 +66,25 @@ Spacing, Sizing, Borders, Effects, Reveal and Layout item accept `defaultOverrid
 <h3 class="property-heading"><code>type</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="required">Required</span></div>
 
-One of `background`, `spacing`, `sizing`, `borders`, `effects`, `reveal`, `layoutItem`, or `advanced`.
+One of `background`, `spacing`, `sizing`, `borders`, `effects`, `flexbox`, `layout`, `reveal`, or `advanced`.
 
 <h3 class="property-heading"><code>defaultOverrides</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: generated defaults</span></div>
 
-Replaces selected generated base defaults. Available for `spacing`, `sizing`, `borders`, `effects`, `reveal`, and `layoutItem`; Background defines its configuration through `styles` and `states` instead, and Advanced accepts no options at all. Use only IDs and complete values documented by the selected group's page.
+Replaces selected generated base defaults. Available for `spacing`, `sizing`, `borders`, `effects`, `flexbox`, `layout`, and `reveal`; Background defines its configuration through `styles` and `states` instead, and Advanced accepts no options at all. Use only IDs and complete values documented by the selected group's page.
+
+<h3 class="property-heading"><code>visibleWhen</code></h3>
+<div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span></div>
+
+Gates the whole group behind one of the part's own controls, using the standard [visibility condition](visible-when.html) syntax — for example a Flexbox group shown only while a layout select reads `flex`. Every generated control inherits the condition, combined with any condition it already carries. Available on every group except `advanced`, which always renders.
+
+```json
+{
+    "type" : "flexbox",
+    "visibleWhen" : {
+        "id" : "layout",
+        "value" : "flex"
+    }
+}
+```
 {% endraw %}

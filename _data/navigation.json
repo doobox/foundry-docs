@@ -199,12 +199,16 @@
             "developer/effects-control-group.html"
           ],
           [
+            "Flexbox",
+            "developer/flexbox-control-group.html"
+          ],
+          [
             "Reveal",
             "developer/reveal-control-group.html"
           ],
           [
-            "Layout item",
-            "developer/layout-item-control-group.html"
+            "Layout",
+            "developer/layout-control-group.html"
           ],
           [
             "Advanced",

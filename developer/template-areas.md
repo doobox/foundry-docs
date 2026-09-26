@@ -23,6 +23,10 @@ permalink: /developer/template-areas.html
 </dt>
 <dd>Creates an editable image area and an image drop target on the canvas. Once populated, it renders an <code>img.fd-image</code> element.</dd>
 <dt>
+<code>{{ video("name") }}</code>
+</dt>
+<dd>Creates an editable video area and a video drop target on the canvas. Once populated, it renders a <code>video.fd-video</code> element with <code>controls</code> and <code>playsinline</code>; the canvas shows the movie&rsquo;s generated poster frame.</dd>
+<dt>
 <code>{{ dropZone("name") }}</code>
 </dt>
 <dd>Creates an ordinary child-content area at this position in the primary HTML template. Authors can drop any part there. A part may contain any number of named drop zones and does not declare them in <code>manifest.json</code>.</dd>

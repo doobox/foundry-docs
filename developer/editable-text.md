@@ -51,6 +51,19 @@ permalink: "/developer/editable-text.html"
 </div>
 
 <p><code>{{ image("hero") }}</code> creates an implicit image value and a drop target in the canvas. Once an image is selected, Foundry emits an <code>img.fd-image</code> element. Add captions, aspect-ratio wrappers and production styling in your own template and CSS.</p>
+<h2>Video</h2>
+
+<div markdown="1">
+
+```html
+<figure class="media {{ part.class }}" {{ part.attributes }}>
+    {{ video("film") }}
+</figure>
+```
+
+</div>
+
+<p><code>{{ video("film") }}</code> creates an implicit video value and a video drop target in the canvas — the video counterpart to <code>{{ image() }}</code>. Authors fill it by dropping a movie file from the Finder or a video asset from the Assets panel. On the canvas Foundry shows the movie&rsquo;s generated poster frame without loading the movie itself; the published page emits a <code>video.fd-video</code> element with <code>controls</code> and <code>playsinline</code>. For configurable playback — autoplay, muting, looping, custom posters — declare a <a href="video-control.html">video control</a> in the manifest instead.</p>
 <h2>Permanent names</h2>
 <p>Every editable macro requires a quoted developer-defined name. It must begin with a letter and may then contain letters, numbers, underscores and hyphens. Names must be unique across all editable macros and drop zones in the part and cannot duplicate an <code>inspector</code> control <code>id</code>.</p>
 

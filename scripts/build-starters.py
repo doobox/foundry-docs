@@ -8,7 +8,6 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-STARTER_ICON = Path(__file__).with_name("starter-icon.svg")
 
 
 def dump_json(value):
@@ -28,7 +27,6 @@ def starter_files(source):
     if set(snippets) != expected:
         raise ValueError(f"Unexpected or missing starter markers: {set(snippets) ^ expected}")
     basic = {name: snippets["starter", name] for name in ("manifest.json", "part.html", "part.css")}
-    basic["icon.svg"] = STARTER_ICON.read_bytes()
     manifest = json.loads(basic["manifest.json"])
     additions = json.loads(b"{" + snippets["complete", "inspector"] + b"}")
     if set(additions) != {"inspector"} or "inspector" in manifest:
@@ -76,7 +74,7 @@ def main():
         if args.check:
             if not destination.exists() or destination.read_bytes() != expected:
                 raise SystemExit(f"{destination.name} is missing or stale. Run python3 scripts/build-starters.py")
-            print(f"Verified {destination.name}: 5 files match the tutorial")
+            print(f"Verified {destination.name}: 4 files match the tutorial")
         else:
             destination.parent.mkdir(parents=True, exist_ok=True)
             if not destination.exists() or destination.read_bytes() != expected:

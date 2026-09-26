@@ -72,5 +72,7 @@ control.film.duration
 
 <p><code>control.film.href</code> returns the exported video path without the Start At fragment. <code>control.film.poster</code> returns a custom poster when one was chosen, otherwise the still frame Foundry generates for the selected video. Playback fields return the Inspector selections: <code>autoplay</code> is <code>never</code> or <code>onLoad</code>, the three attribute switches are Booleans, and <code>startAt</code> is a number of seconds. Use these values to build custom markup when the standard element is not suitable. The editing canvas receives the poster but does not receive or load the selected video URL. Preview and published output receive the exported video path and a separate managed poster-image path.</p>
 
+<p>On the editing canvas the rendered element is itself a drop target. While no video is selected it appears as Foundry&rsquo;s standard drop well; once filled, dropping a movie file replaces the video and dropping an image sets the poster. The published element carries the <code>fd-video</code> class.</p>
+
 <p>Video and poster selections are not responsive: one selection is used at every breakpoint. A custom poster is retained when a video is subsequently selected or replaced. <code>duration</code> is the video length in seconds. Dimensions, aspect ratio and duration are empty when that metadata is unavailable.</p>
 {% endraw %}

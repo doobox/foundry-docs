@@ -20,10 +20,7 @@ Example.foundrypack/
 │       └── Resources/
 │           ├── part.html
 │           ├── part.css
-│           ├── icon.svg          (square — Structure, Inspector, canvas)
-│           ├── icon-dark.svg     (optional dark-appearance variant)
-│           ├── tile.svg          (optional landscape — the Parts panel tile)
-│           └── tile-dark.svg     (optional dark-appearance variant)
+│           └── icon.svg          (optional mono glyph — manifest icon.file)
 ├── Templates/
 │   ├── Heroes/               (organization folder)
 │   │   └── 7B6E…/

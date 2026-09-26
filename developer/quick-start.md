@@ -28,8 +28,7 @@ Callout.foundrydevpack/
         ├── manifest.json
         └── Resources/
             ├── part.html
-            ├── part.css
-            └── icon.svg
+            └── part.css
 ```
 
 ### Declare the files
@@ -44,6 +43,10 @@ The starter's root `manifest.json` declares pack format 2 and identifies the out
     "title" : "Callout",
     "version" : "1.0.0",
     "group" : "Content",
+    "icon" : {
+        "symbol" : "text.bubble",
+        "tint" : "orange"
+    },
     "templates" : {
         "html" : "part.html",
         "files" : [
@@ -85,24 +88,16 @@ Save as `Parts/uk.co.example.callout/Resources/part.css`:
 
 ### Give it an icon
 
-Every part needs a square SVG icon. You can also provide dark-appearance artwork and a dedicated landscape tile for the Parts panel.
+A part's icon is one square single-colour glyph plus a system `tint`, declared by the manifest's [`icon`](manifest-identity.html) dictionary. The starter uses an SF Symbol, so it ships no artwork at all. To draw your own instead, save a square SVG using `fill="currentColor"` — Foundry renders it as a stencil, white on a tint-filled tile in the Parts panel and tinted directly in the Structure tree — and declare it:
 
-| File | Requirement | Where Foundry uses it | Recommended viewBox |
-| --- | --- | --- | --- |
-| `icon.svg` | Required | Structure, Inspector, canvas and other non-panel contexts | 256 × 256 |
-| `icon-dark.svg` | Optional | Dark-appearance variant of the square icon | 256 × 256 |
-| `tile.svg` | Optional | Parts panel only | 256 × 192 |
-| `tile-dark.svg` | Optional | Dark-appearance variant of the Parts panel tile | 256 × 192 |
+```json
+"icon" : {
+    "file" : "icon.svg",
+    "tint" : "orange"
+}
+```
 
-Keep the featured artwork about **90 px high** on either canvas. The remaining space gives the artwork consistent visual weight and breathing room. A subtle background helps transparent artwork remain visible, and Foundry scales the complete SVG without cropping.
-
-Fallbacks are automatic:
-
-- Without `icon-dark.svg`, dark appearance uses `icon.svg`.
-- Without `tile-dark.svg`, dark appearance uses `tile.svg`.
-- Without either tile file, the Parts panel centres the appropriate square icon on its tile.
-
-Save all supplied artwork together in `Parts/uk.co.example.callout/Resources/`.
+Draw the glyph to the edges of the viewBox — Foundry supplies the tile's whitespace and renders SVG glyphs and SF Symbols at the same size. Keep shapes bold enough to read at 16&nbsp;px. Colours, gradients, and embedded images inside the SVG are ignored; both appearances come from the system tint automatically. A part without an `icon` shows Foundry's generic mark.
 
 ## 2. Try it in Foundry
 

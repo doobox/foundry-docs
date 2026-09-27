@@ -23,10 +23,12 @@ permalink: "/developer/video-control.html"
 ```
 
 ```html
-{{ control.film }}
+<video src="{{ control.film }}"
+       poster="{{ control.film.poster }}"
+       {{ control.film.attributes }}></video>
 ```
 
-<p>The direct value renders the complete video element, including its selected or generated poster and playback settings. The Inspector can choose an existing video from project Resources, import one from the Mac, or accept a video dropped from Finder or Resources. Imported files are added to Resources. The media well shows Foundry’s generated poster together with the filename, dimensions, duration and file size. Other media types are rejected, and formats that may not play consistently across browsers are identified in the Inspector.</p>
+<p>Like the image control, this one hands over values and your template writes the markup — so you are free to add <code>&lt;source&gt;</code> alternatives, a <code>&lt;track&gt;</code> for captions, classes, or a wrapper. <code>control.film</code> is the video's URL, and <code>control.film.attributes</code> expands the Inspector's playback choices to the matching HTML attributes; write your own instead whenever the part wants fixed behaviour. The Inspector can choose an existing video from project Resources, import one from the Mac, or accept a video dropped from Finder or Resources. Imported files are added to Resources. The media well shows Foundry’s generated poster together with the filename, dimensions, duration and file size. Other media types are rejected, and formats that may not play consistently across browsers are identified in the Inspector.</p>
 
 ## Playback options
 
@@ -50,9 +52,11 @@ permalink: "/developer/video-control.html"
 
 ## Template values
 
-<p><code>control.film</code> renders the complete video element. It is empty when neither a video nor a custom poster is present. Use the structured values when the part needs different markup or playback behaviour:</p>
+<p><code>control.film</code> is the video's URL, empty when none is selected. The structured values below cover everything else:</p>
 
 ```text
+control.film.source
+control.film.attributes
 control.film.href
 control.film.filename
 control.film.poster
@@ -70,9 +74,9 @@ control.film.aspectRatio
 control.film.duration
 ```
 
-<p><code>control.film.href</code> returns the exported video path without the Start At fragment. <code>control.film.poster</code> returns a custom poster when one was chosen, otherwise the still frame Foundry generates for the selected video. Playback fields return the Inspector selections: <code>autoplay</code> is <code>never</code> or <code>onLoad</code>, the three attribute switches are Booleans, and <code>startAt</code> is a number of seconds. Use these values to build custom markup when the standard element is not suitable. The editing canvas receives the poster but does not receive or load the selected video URL. Preview and published output receive the exported video path and a separate managed poster-image path.</p>
+<p><code>control.film.source</code> is the exported path with the Start At media fragment applied, which is what Foundry substitutes into your <code>src</code>. <code>control.film.attributes</code> is the ready-made attribute list — <code>autoplay</code>, <code>muted</code>, <code>loop</code>, <code>controls</code> as chosen, always with <code>playsinline</code>. <code>control.film.href</code> returns the exported video path without the Start At fragment. <code>control.film.poster</code> returns a custom poster when one was chosen, otherwise the still frame Foundry generates for the selected video. Playback fields return the Inspector selections: <code>autoplay</code> is <code>never</code> or <code>onLoad</code>, the three attribute switches are Booleans, and <code>startAt</code> is a number of seconds. Use these values to build custom markup when the standard element is not suitable. The editing canvas receives the poster but does not receive or load the selected video URL. Preview and published output receive the exported video path and a separate managed poster-image path.</p>
 
-<p>On the editing canvas the rendered element is itself a drop target. While no video is selected it appears as Foundry&rsquo;s standard drop well; once filled, dropping a movie file replaces the video and dropping an image sets the poster. The published element carries the <code>fd-video</code> class.</p>
+<p>Foundry rewrites your <code>&lt;video&gt;</code> for the editing canvas exactly as it does an image's <code>&lt;img&gt;</code>: while no video is selected the element becomes Foundry&rsquo;s standard drop well, and once filled it keeps your poster and attributes but carries no <code>src</code>, so the editor never streams the movie. Dropping a movie onto it replaces the video; dropping an image sets the poster.</p>
 
 <p>Video and poster selections are not responsive: one selection is used at every breakpoint. A custom poster is retained when a video is subsequently selected or replaced. <code>duration</code> is the video length in seconds. Dimensions, aspect ratio and duration are empty when that metadata is unavailable.</p>
 {% endraw %}

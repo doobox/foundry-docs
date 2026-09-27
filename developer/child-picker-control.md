@@ -10,10 +10,7 @@ permalink: "/developer/child-picker-control.html"
 <p class="lede">An Inspector control that adds and manages real child-part instances inside a part.</p>
 
 
-<figure class="control-screenshot">
-    <img src="assets/screenshots/child-picker-control.png" width="348" height="90" alt="Child picker labelled Cards, with Feature Card selected, an Add button and a count of 3 of 12." />
-    <figcaption>Choose an allowed part, add it to the managed area, and see the current count.</figcaption>
-</figure>
+Click the Add Child button to create a child. When only one eligible child type is installed, it is added immediately. When several are available, the button opens a popover; choosing a part adds it and closes the popover. If no eligible types are available or the collection has reached its maximum, the button is disabled with an explanation.
 
 ## Quick example
 
@@ -23,6 +20,8 @@ Add this dictionary to your part's `inspector` array:
 {
     "type" : "childPicker",
     "id" : "cards",
+    "buttonText" : "Add Card",
+    "buttonIcon" : "plus.square",
     "pickerItems" : [
         "com.example.metric-card"
     ]
@@ -82,12 +81,45 @@ Help text that explains which children the author can add.
 
 These keys sit directly in the same custom-item dictionary. Omitted optional keys use the defaults shown.
 
-Foundry always presents the action as **Add** with its standard plus symbol. Its title and icon are not package-configurable, so the action has the same meaning in every part.
+The button defaults to **Add** with a plus symbol. Use `buttonText` and `buttonIcon` to customise it independently of the Inspector's `label`.
+
+<h3 class="property-heading"><code>buttonText</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: Add Child</span></div>
+
+The visible title of the button that adds the selected child. Supply one non-empty string, not an array. This does not change the Inspector's left-hand label or the button's action.
+
+```json
+"buttonText" : "Add Grid Item"
+```
+
+<h3 class="property-heading"><code>buttonIcon</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: plus.app</span></div>
+
+The SF Symbol displayed beside the button title. Supply one non-empty symbol name, not an array or an image path. Choose a symbol available on the macOS versions your part supports. Omit this key to keep the plus symbol.
+
+```json
+"buttonIcon" : "plus.square"
+```
+
+For example, this control shows **Grid Items** in the label column and an **Add Grid Item** button:
+
+```json
+{
+    "type" : "childPicker",
+    "id" : "content",
+    "label" : "Grid Items",
+    "buttonText" : "Add Grid Item",
+    "buttonIcon" : "plus.square",
+    "pickerItems" : ["uk.co.doobox.griditem"]
+}
+```
+
+This example requires the `uk.co.doobox.griditem` part to be installed. Render its children with `{{ childArea("content") }}`.
 
 <h3 class="property-heading"><code>pickerItems</code></h3>
 <div class="property-meta"><span class="property-type">String array</span><span class="required">Required</span></div>
 
-One or more part package identifiers available from the Inspector picker. The array cannot be empty. These are also the only types accepted as canvas drops unless `accepts` declares a wider set.
+One or more part package identifiers offered by the Add button. The array cannot be empty. Only installed parts whose `allowedParents` permits this parent are offered. One eligible type is added directly; several appear in the selection popover. These are also the only types accepted as canvas drops unless `accepts` declares a wider set.
 
 ```json
 "pickerItems" : [

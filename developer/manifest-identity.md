@@ -137,7 +137,9 @@ The part's artwork: one square single-colour glyph plus a system tint. Foundry r
 <h3 class="property-heading"><code>icon.file</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span></div>
 
-A square SVG in `Resources/`, at most 64 KiB, drawn with `fill="currentColor"`. Draw the glyph to the edges of the viewBox — the viewBox is the glyph's bounding box, and Foundry supplies all whitespace, fitting the glyph into the same padded area it uses for SF Symbols so both kinds render at one size. Hard-coded colours, gradients, and embedded images are ignored — the file renders as a single-colour stencil — and validation warns when it finds them.
+A square SVG in `Resources/`, at most 64 KiB. Draw the glyph to the edges of the viewBox — the viewBox is the glyph's bounding box, and Foundry supplies all whitespace, fitting the glyph into the same padded area it uses for SF Symbols so both kinds render at one size.
+
+Foundry uses only the glyph's shape and repaints it, so the colour you draw in makes no difference: any solid fill works, including none at all. What does change the result is anything that makes parts of the shape partly transparent — opacity, colours with an alpha channel — which come out faint, and gradients, embedded images, patterns or filters, which flatten into a plain silhouette. Validation warns when it finds any of these.
 
 <h3 class="property-heading"><code>icon.symbol</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span></div>

@@ -101,6 +101,10 @@
             "developer/slider-control.html"
           ],
           [
+            "Spacer",
+            "developer/spacer-control.html"
+          ],
+          [
             "Text",
             "developer/text-control.html"
           ],

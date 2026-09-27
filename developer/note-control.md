@@ -22,7 +22,6 @@ Add this dictionary to your part's `inspector` array:
 ```json
 {
     "type" : "note",
-    "id" : "guidance",
     "title" : "Layout",
     "body" : "Choose the spacing for this part."
 }
@@ -46,9 +45,9 @@ Identifies this item as Note. Always use `note`.
 
 
 <h3 class="property-heading"><code>id</code></h3>
-<div class="property-meta"><span class="property-type">String</span><span class="required">Required</span></div>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: generated</span></div>
 
-The unique name for this Inspector item. It must start with a letter and may contain letters, numbers, underscores and hyphens. Note is presentation-only, so this identifier is not available as a template value.
+A note holds no value and nothing can refer to one, so you can leave `id` out and Foundry names it for you. If you do supply one, it must be unique within the part, start with a letter, and contain only letters, numbers, underscores and hyphens. It is never available as a template value.
 
 ```json
 "id" : "guidance"
@@ -111,7 +110,7 @@ Use `body` for the required explanatory copy, optionally add `title` as a headin
 
 ## Return value
 
-`{{ control.guidance }}` resolves as **No template value**. Stored internally, its value is **None**.
+Note is an Inspector-only item. It stores nothing and produces no template value, so templates cannot refer to it.
 
 ```text
 No template value
@@ -124,7 +123,6 @@ No template value
 ```json
 "inspector" : [
     {
-        "id" : "guidance",
         "title" : "About responsive settings",
         "body" : "Changes here affect every breakpoint.",
         "systemImage" : "info.circle",

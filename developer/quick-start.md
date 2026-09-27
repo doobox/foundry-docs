@@ -88,7 +88,7 @@ Save as `Parts/uk.co.example.callout/Resources/part.css`:
 
 ### Give it an icon
 
-A part's icon is one square single-colour glyph plus a system `tint`, declared by the manifest's [`icon`](manifest-identity.html) dictionary. The starter uses an SF Symbol, so it ships no artwork at all. To draw your own instead, save a square SVG using `fill="currentColor"` — Foundry renders it as a stencil, white on a tint-filled tile in the Parts panel and tinted directly in the Structure tree — and declare it:
+A part's icon is one square single-colour glyph plus a system `tint`, declared by the manifest's [`icon`](manifest-identity.html) dictionary. The starter uses an SF Symbol, so it ships no artwork at all. To draw your own instead, save a square SVG filled with any solid colour — Foundry uses only its shape and renders it as a stencil, white on a tint-filled tile in the Parts panel and tinted directly in the Structure tree — and declare it:
 
 ```json
 "icon" : {

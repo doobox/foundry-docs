@@ -44,6 +44,10 @@ def dictionaries(value):
             yield from dictionaries(child)
 
 
+# Mirrors PartPackageControl.Kind.permitsOmittedID in the app.
+ID_OPTIONAL_CONTROLS = {"divider", "note", "spacer"}
+SPACER_HEIGHT_RANGE = (1, 30)
+
 sources = {p.name: p.read_text() for p in (ROOT / "developer").glob("*.md")}
 control_pages = {}
 for name, source in sources.items():
@@ -107,7 +111,8 @@ for name, source in sources.items():
                 continue
             if isinstance(kind, str) and ("group" in item or "section" in item):
                 fail(location, "controls no longer take group or section; wrap the control in a section entry")
-            if not isinstance(kind, str) or "id" not in item:
+            # Presentation-only items hold no value, so their id is optional.
+            if not isinstance(kind, str) or ("id" not in item and kind not in ID_OPTIONAL_CONTROLS):
                 continue
             if kind not in control_pages:
                 # Other manifest objects also use type/id; reject known retired controls.
@@ -119,6 +124,13 @@ for name, source in sources.items():
             unknown = set(item) - permitted
             if unknown:
                 fail(location, f"{kind}: undocumented keys {sorted(unknown)}")
+            if "height" in item:
+                height = item["height"]
+                low, high = SPACER_HEIGHT_RANGE
+                if isinstance(height, bool) or not isinstance(height, (float, int)):
+                    fail(location, f"{kind}: height must be a number")
+                elif not low <= height <= high:
+                    fail(location, f"{kind}: height must be between {low} and {high}")
             if "default" in item:
                 fail(location, "use defaults.base, not default")
             if "defaults" in permitted and "defaults" not in item:

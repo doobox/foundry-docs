@@ -21,8 +21,7 @@ Add this dictionary to your part's `inspector` array:
 
 ```json
 {
-    "type" : "divider",
-    "id" : "separator"
+    "type" : "divider"
 }
 ```
 
@@ -42,13 +41,13 @@ Identifies this item as Divider. Always use `divider`.
 "type" : "divider"
 ```
 
-> **Important:** Divider supports only `type`, `id`, and optional `visibleWhen`. It has no author-editable state or template value.
+> **Important:** Divider supports only `type`, an optional `id`, and an optional `visibleWhen`. It has no author-editable state or template value.
 
 
 <h3 class="property-heading"><code>id</code></h3>
-<div class="property-meta"><span class="property-type">String</span><span class="required">Required</span></div>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: generated</span></div>
 
-The unique name of this Inspector item. It must start with a letter and may contain letters, numbers, underscores and hyphens.
+A divider holds no value and nothing can refer to one, so you can leave `id` out and Foundry names it for you. If you do supply one, it must be unique within the part, start with a letter, and contain only letters, numbers, underscores and hyphens.
 
 ```json
 "id" : "separator"
@@ -68,7 +67,7 @@ Shows this control only when another control meets the stated condition.
 
 Divider does not support `label`, `subtitle`, `tooltip`, `defaults`, `responsive`, or `count`.
 
-Foundry displays 10 points of space above and below the divider.
+Foundry displays 10 points of space above and below the divider. To add space without a line, use a [spacer](spacer-control.html).
 
 ## Return value
 
@@ -85,8 +84,7 @@ No template value
 ```json
 "inspector" : [
     {
-        "type" : "divider",
-        "id" : "separator"
+        "type" : "divider"
     }
 ]
 ```

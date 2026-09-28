@@ -87,9 +87,27 @@ description: Highlights from Foundry preview builds distributed before public re
             </section>
 
             <section class="release-group">
+                <h3>Inspector and canvas</h3>
+                <ul class="release-list">
+                    <li>The image well shows a linked web image and lets you place a focal point on it; when the image cannot be fetched it shows the address instead. Import Copy and Link are both prominent choices in the From URL… popover.</li>
+                    <li>Fit appears for an image as soon as any of Height, Aspect ratio, Min height or Max height gives the part a shape, not only for a fixed height.</li>
+                    <li>Built-in part icons for Button, Copyright, HTML, Image and Navigation have new tints.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Documentation</h3>
+                <ul class="release-list">
+                    <li>The Build 12 entry below now opens with a red box listing the pack changes that broke Build 11 parts — the required control-group <code>id</code>, the renamed configuration keys, <code>layoutItem</code>, the slider and video changes — with the one-line fix.</li>
+                    <li>The <a href="background-control-group.html">Background</a> page describes the image focal point in place of the Position presets; the <a href="sizing-control-group.html">Sizing</a> page documents the aspect ratio controls and their composed CSS; <a href="visible-when.html">visibleWhen</a> notes that a framework length at None is empty; and <a href="custom-controls.html">Custom controls</a> explains the Developer panel's Controls section.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
                 <h3>Fixes</h3>
                 <ul class="release-list">
                     <li>Two controls or text macros with the same id no longer crash Foundry while a pack loads; the validator reports <em>Duplicate control identifier</em> and the part is rejected.</li>
+                    <li>An image under a Max height was clipped from the top instead of cropped around its focal point; the Image part now lays out as a flex column so every height rule reaches the image.</li>
                     <li>The built-in Divider is created under its current <code>foundry.layout.divider</code> identifier.</li>
                 </ul>
             </section>

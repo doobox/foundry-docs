@@ -7,12 +7,12 @@ permalink: "/developer/slider-control.html"
 {% endraw %}{% include breadcrumbs.html %}{% raw %}
 <p class="eyebrow">manifest.json · inspector</p>
 <h1>Slider</h1>
-<p class="lede">A continuous or stepped numeric slider with optional visual tick marks and an exact-value field.</p>
+<p class="lede">A continuous or stepped numeric slider. Its current value is always shown beside it, either as a label or as an editable field, and you can add tick marks, tick labels, end labels and a neutral point.</p>
 
 
 <figure class="control-screenshot">
     <img src="assets/screenshots/slider-control.png" width="348" height="41" alt="Slider control set to 50 percent with a numeric value field." />
-    <figcaption>The slider and numeric field edit the same value.</figcaption>
+    <figcaption>With <code>editableValue</code> set to true, the slider and number field edit the same value.</figcaption>
 </figure>
 
 ## Quick example
@@ -121,7 +121,7 @@ Controls when this control's value is available to templates. `always` preserves
 <h3 class="property-heading"><code>defaults</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="required">Required</span></div>
 
-A dictionary containing the required `base` value and optional breakpoint values: `small`, `medium`, `large`, `extraLarge`, and `doubleExtraLarge`. Breakpoint entries require `responsive: true`. Every entry uses the complete value format described below; omitted breakpoints inherit the preceding enabled value. Disabled project breakpoints are skipped without discarding their declarations. User overrides take precedence at the same breakpoint. Resetting an override restores the default cascade.
+A dictionary containing the required `base` value and optional breakpoint values: `small`, `medium`, `large`, `extraLarge`, and `doubleExtraLarge`. Breakpoint entries require `responsive: true`. Every entry uses the complete value format described below; omitted breakpoints inherit the preceding enabled value. Disabled project breakpoints are skipped without discarding their declarations. A new part starts with each breakpoint entry already pinned, exactly as if the user had pinned it: its blue dot is set in the Inspector, and the user can edit or unpin it like any other pinned value.
 
 <h3 class="property-heading"><code>defaults.base</code></h3>
 <div class="property-meta"><span class="property-type">Number or Number array</span><span class="required">Required</span></div>
@@ -201,19 +201,76 @@ Selectable increment relative to `minimum`. It cannot be negative; zero means co
 <h3 class="property-heading"><code>ticks</code></h3>
 <div class="property-meta"><span class="property-type">Integer</span><span class="optional">Optional</span><span class="default">Default: 0</span></div>
 
-Exact number of evenly distributed visible marks, including both endpoints. Use zero for no marks or an integer of at least two. Ticks are visual only.
+Exact number of evenly distributed visible marks, including both endpoints. Use zero for no marks or an integer of at least two. Ticks are visual only: `step` decides which values can be chosen. Values in `tickLabels` add their own marks, so you can use either key alone or both together.
 
 ```json
 "ticks" : 11
 ```
 
-<h3 class="property-heading"><code>showsValueField</code></h3>
-<div class="property-meta"><span class="property-type">Boolean</span><span class="optional">Optional</span><span class="default">Default: true</span></div>
+<h3 class="property-heading"><code>editableValue</code></h3>
+<div class="property-meta"><span class="property-type">Boolean</span><span class="optional">Optional</span><span class="default">Default: false</span></div>
 
-Shows an editable number field for precise entry beside the slider.
+How the current value is shown beside the slider. By default it is a read-only label that updates as the slider moves, shown with the unit and as many decimal places as `step` needs. Set to true to show an editable number field instead, so the user can type an exact value.
 
 ```json
-"showsValueField" : true
+"editableValue" : true
+```
+
+<h3 class="property-heading"><code>tickLabels</code></h3>
+<div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: none</span></div>
+
+Draws a labelled mark beneath the track at each listed value. Each key is a slider value written as a string, and each value is the text shown under that mark. Keys must lie within `minimum`…`maximum`. Keep labels short and few: three to five fit comfortably in the Inspector. Tick labels make the slider row taller.
+
+```json
+"tickLabels" : {
+    "0" : "Auto",
+    "6" : "6",
+    "12" : "12"
+}
+```
+
+<h3 class="property-heading"><code>valueLabels</code></h3>
+<div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: none</span></div>
+
+Replaces the read-only value beside the slider with text when the slider rests on one of the listed values. Use it when a value has a special meaning, such as 0 meaning "Auto". Templates still receive the number, so test for it with `{{ if }}`. Keys follow the same rules as `tickLabels`. It cannot be combined with `editableValue: true`, because an editable field always shows a number.
+
+```json
+"valueLabels" : {
+    "0" : "Auto"
+}
+```
+
+<h3 class="property-heading"><code>minimumLabel</code></h3>
+<div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: none</span></div>
+
+Shown at the left end of the track. Provide a `title`, an SF Symbol name in `systemImage`, or both. When both are present the symbol is shown, and the title becomes its tooltip and its VoiceOver label.
+
+```json
+"minimumLabel" : {
+    "systemImage" : "sun.min",
+    "title" : "Dim"
+}
+```
+
+<h3 class="property-heading"><code>maximumLabel</code></h3>
+<div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: none</span></div>
+
+Shown at the right end of the track. It takes the same keys as `minimumLabel`.
+
+```json
+"maximumLabel" : {
+    "systemImage" : "sun.max",
+    "title" : "Bright"
+}
+```
+
+<h3 class="property-heading"><code>neutralValue</code></h3>
+<div class="property-meta"><span class="property-type">Number</span><span class="optional">Optional</span><span class="default">Default: minimum</span></div>
+
+The value the track's fill starts from. By default the fill runs from the left end to the thumb. For a value that can go either way, such as an offset from −100 to 100, set it to 0 so the fill grows outwards from the centre. It must lie within the range.
+
+```json
+"neutralValue" : 0.0
 ```
 
 <h3 class="property-heading"><code>units</code></h3>
@@ -251,6 +308,31 @@ Control array
 For a 0–1000 integer slider without marks, use `step` 1 and omit `ticks`.
 </div>
 
+<div class="guidance" markdown="1">
+<h3>A value that means "Auto"</h3>
+
+To give a slider an off or automatic setting, start its range one step lower and label that value. This slider picks a row count from 1 to 12, with 0 meaning "size rows to their content":
+
+```json
+"minimum" : 0.0,
+"maximum" : 12.0,
+"step" : 1.0,
+"tickLabels" : {
+    "0" : "Auto",
+    "12" : "12"
+},
+"valueLabels" : {
+    "0" : "Auto"
+}
+```
+
+The template receives 0, so test for it:
+
+```css
+{{ if control.rows > 0 }}grid-template-rows: repeat({{ control.rows }}, minmax(0, 1fr));{{ endif }}
+```
+</div>
+
 ## Return value
 
 `{{ control.intensity }}` resolves as **Locale-independent numeric String**. Stored internally, its value is **Number (Double)**.
@@ -273,7 +355,7 @@ filter: brightness({{ control.intensity }}%);
         "maximum" : 100.0,
         "step" : 10.0,
         "ticks" : 11,
-        "showsValueField" : true,
+        "editableValue" : true,
         "units" : "%",
         "defaults" : {
             "base" : 100.0

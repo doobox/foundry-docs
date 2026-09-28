@@ -67,7 +67,7 @@ Shows this control only when another control meets the stated condition.
 
 Divider does not support `label`, `subtitle`, `tooltip`, `defaults`, `responsive`, or `count`.
 
-Foundry displays 10 points of space above and below the divider. To add space without a line, use a [spacer](spacer-control.html).
+Foundry displays 5 points of space above and below the divider, on top of the normal spacing between controls. To add space without a line, use a [spacer](spacer-control.html).
 
 ## Return value
 

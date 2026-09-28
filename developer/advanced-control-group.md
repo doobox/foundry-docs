@@ -7,7 +7,7 @@ permalink: /developer/advanced-control-group.html
 {% endraw %}{% include breadcrumbs.html %}{% raw %}
 <p class="eyebrow">manifest.json · inspector · control groups</p>
 <h1>Advanced</h1>
-<p class="lede">Opts the part into the Advanced Inspector section: an HTML ID, CSS classes, and custom attributes on the part's root element, set per placed instance by the site author.</p>
+<p class="lede">Opts the part into the Advanced Inspector section: an HTML ID, CSS classes, custom CSS, and custom attributes for the part, set per placed instance by the site author.</p>
 
 ## Quick example
 
@@ -37,6 +37,7 @@ Unlike other control groups, Advanced generates no `control.…` template values
 
 - **ID** — an anchor for in-page links. Validated for uniqueness across the page and emitted as the root element's `id` through `{{ part.attributes }}`.
 - **Classes** — space-separated class names appended to the root element's classes through `{{ part.class }}`.
+- **CSS** — the author's own CSS for this instance. Foundry nests it inside the instance's selector, so it cannot reach anything outside the part: bare declarations style the part itself, selectors starting with a pseudo-class or pseudo-element attach to the part — `:hover { … }` styles the part when hovered — nested rules such as `h2 { … }` style its descendants, and `:instance` also stands for the part in selectors. The author's CSS takes precedence over the part's own rules, including its breakpoint rules. It needs no template macro: Foundry adds it to the instance's styles automatically.
 - **Attributes** — author-defined name/value pairs (for example `data-…` or ARIA attributes), emitted through `{{ part.attributes }}`. The section carries its own **Add Attribute…** button beneath the attribute list.
 
 Keep `{{ part.class }}` and `{{ part.attributes }}` on your template's root element — without them the author's values have nowhere to render. See [Template root attributes](template-root-attributes.html).
@@ -50,5 +51,5 @@ Always `advanced`. The group has no options: it does not accept `id`, `label`, `
 
 ## Return value
 
-None. Advanced is the only group with no `control.…` values at all — its three fields reach the page through `{{ part.class }}` and `{{ part.attributes }}`, which every part template already carries. No additional control output is needed.
+None. Advanced is the only group with no `control.…` values at all — its ID, classes and attributes reach the page through `{{ part.class }}` and `{{ part.attributes }}`, which every part template already carries, and Foundry adds the custom CSS to the instance's styles itself. No additional control output is needed.
 {% endraw %}

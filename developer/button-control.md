@@ -118,7 +118,7 @@ Controls when this control's value is available to templates. `always` preserves
 <h3 class="property-heading"><code>defaults</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="required">Required</span></div>
 
-A dictionary containing the required `base` value and optional breakpoint values: `small`, `medium`, `large`, `extraLarge`, and `doubleExtraLarge`. Breakpoint entries require `responsive: true`. Every entry uses the complete value format described below; omitted breakpoints inherit the preceding enabled value. Disabled project breakpoints are skipped without discarding their declarations. User overrides take precedence at the same breakpoint. Resetting an override restores the default cascade.
+A dictionary containing the required `base` value and optional breakpoint values: `small`, `medium`, `large`, `extraLarge`, and `doubleExtraLarge`. Breakpoint entries require `responsive: true`. Every entry uses the complete value format described below; omitted breakpoints inherit the preceding enabled value. Disabled project breakpoints are skipped without discarding their declarations. A new part starts with each breakpoint entry already pinned, exactly as if the user had pinned it: its blue dot is set in the Inspector, and the user can edit or unpin it like any other pinned value.
 
 <h3 class="property-heading"><code>defaults.base</code></h3>
 <div class="property-meta"><span class="property-type">Boolean or Boolean array</span><span class="required">Required</span></div>

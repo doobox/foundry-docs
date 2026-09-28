@@ -11,6 +11,7 @@ description: Highlights from Foundry preview builds distributed before public re
     <h1>Pre-release notes</h1>
     <p class="lede">A concise history of the preview builds shared with Foundry’s early developers. Each build includes everything listed in the builds before it.</p>
     <nav class="release-jump" aria-label="Jump to a preview build">
+        <a href="#build-12">Build 12</a>
         <a href="#build-11">Build 11</a>
         <a href="#build-10">Build 10</a>
         <a href="#build-9">Build 9</a>
@@ -28,6 +29,87 @@ description: Highlights from Foundry preview builds distributed before public re
 </div>
 
 <div class="release-timeline">
+    <article class="release-build" id="build-12">
+        <header class="release-build-header">
+            <div>
+                <span class="release-build-number">Build 12</span>
+                <h2>Rebuilt layout parts, consistent part options and a faster canvas</h2>
+            </div>
+            <time datetime="2026-09-28">28 September 2026</time>
+        </header>
+        <p class="release-summary">Build 12 rebuilds Container, Flexbox and Grid and adds a simple Columns part, gives every built-in part the same set of Inspector sections — including per-instance custom CSS — makes developer breakpoint defaults behave like ordinary pinned values, replaces the Inspector slider with the native one and expands its API, adds a Video part and more expressive part icons, and makes pasting into large pages effectively instant.</p>
+
+        <div class="release-groups">
+            <section class="release-group">
+                <h3>Layout parts</h3>
+                <ul class="release-list">
+                    <li><strong>Container, Flexbox and Grid are rebuilt</strong> with new defaults chosen for people who never check the mobile view. Flexbox and Grid accept any part directly, one per cell or slot, and start with three items; add a Grid Item or Flex Item when a cell needs its own spanning, background, padding or alignment.</li>
+                    <li><strong>Grid</strong> starts with 1, 2 and 3 columns across phone, tablet and desktop; its alignment defaults to Auto, so boxes stretch to fill their cells while images and video keep their proportions. A single <strong>Rows</strong> slider runs from Auto to 12, a new <strong>Placement</strong> control can Fill Gaps left by spanning items, and <strong>Preview Grid</strong> draws the column and row tracks on the canvas only — never in preview or published pages.</li>
+                    <li><strong>Flexbox</strong> now wraps by default and centres its items, so rows reflow on small screens and mixed parts line up. <strong>Flex Item</strong> gains a Size choice — Fit Content, Fill Space, Equal Width or Custom — with Grow, Shrink and Starting Size under Custom.</li>
+                    <li><strong>Container</strong> content width is Breakpoint, Full, Fit Content or a Custom width that never exceeds the screen; the separate content height was removed in favour of the section's own Sizing height. New Containers start with comfortable padding, and its alignment controls read Vertical and Horizontal.</li>
+                    <li>Added <strong>Columns</strong>, a simple layout for less experienced users: choose a preset — 50/50, 33/67, 67/33, 25/75, 75/25, three or four equal, or 25/50/25 — and each column is its own drop area. Columns stack on phones and sit side by side from tablets up, and <strong>Reverse Order</strong> mirrors both the order and the widths, per breakpoint.</li>
+                    <li>The Divider moved to the Layout group with new artwork, and parts within each library group are now listed alphabetically.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Consistent part options</h3>
+                <ul class="release-list">
+                    <li>Every built-in part now offers the standard sections — Sizing, Spacing, Background, Borders, Effects, Layout, Reveal and Advanced — wherever they make sense, so Headings, Paragraphs, Images, Buttons and the rest can be styled the same way as layout parts. Sections that would duplicate a part's own settings, such as Background on Button, are deliberately left out.</li>
+                    <li>A whole-part <strong>Link</strong> is available on Container, Flexbox, Image, Grid Item and Flex Item, for clickable sections, images and cards.</li>
+                    <li>The Image part uses the standard Sizing group, starting at 1200 pixels wide as before; with a fixed height, the image covers the area around its focal point.</li>
+                    <li>The Advanced section gains a <strong>CSS</strong> field for per-instance custom CSS. Declarations style the part itself, <code>:hover { … }</code> styles it when hovered, and nested rules such as <code>h2 { … }</code> style elements inside it. The CSS is scoped to the part, takes precedence over the part's own rules, and cannot leak onto the rest of the page — even when its braces don't balance.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Responsive editing</h3>
+                <ul class="release-list">
+                    <li>Breakpoint defaults declared by a part now behave exactly as if you had pinned them: a new part shows its blue dots from the start, editing at that breakpoint updates the pin, and clicking the dot or Reset returns the breakpoint to inheriting from the one below.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Inspector</h3>
+                <ul class="release-list">
+                    <li>Sliders are now native SwiftUI sliders: they draw exactly the tick marks a part asks for, snap to their step, and show their current value beside the track — as a read-only label, or an editable field where the part enables one. Tick labels, text at special values such as "Auto", end symbols and a centre-out fill are all available to parts.</li>
+                    <li>Number steppers stop at their minimum and maximum instead of wrapping round.</li>
+                    <li>Separate controls sit as closely as the rows of a multi-part control; parts add separation where they want it with the new spacer or a divider, which now has even space above and below.</li>
+                    <li>The child picker's Add button fills its column like its neighbours, and segmented buttons without subtitles no longer reserve space for them.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Media and icons</h3>
+                <ul class="release-list">
+                    <li>Added the <strong>Video</strong> part and the <code>{{ video("name") }}</code> primitive with its own drop wells and canvas poster frames; dropping a movie onto the canvas creates a Video part, as dropping an image creates an Image part.</li>
+                    <li>Part icons are declared as one glyph — an SVG file or an SF Symbol — plus a system tint, replacing the separate icon and tile artwork files. Any solid colour works in an SVG glyph.</li>
+                    <li>Tints accept <strong>light and dark shades</strong>, such as <code>blue.light</code>, and SVG icons can set <code>"rendering": "original"</code> to appear as authored in full colour. The Structure tree always uses the base colour, and an unrecognised tint simply renders gray.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Canvas and workspace</h3>
+                <ul class="release-list">
+                    <li><strong>Pasting and duplicating no longer slow down on large pages.</strong> The canvas updates only the parts an edit touches, keeps each part's styles in their own element, and caches every instance's CSS. On a 400-part page a paste now costs the same as on a small one.</li>
+                    <li>The canvas's light and dark appearance toggle now also switches <code>prefers-color-scheme</code>, drop zones use symbols, and insertion bars replace the drop slab wherever a target already has children.</li>
+                    <li>Sidebars use the system's own translucent material.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Packs and the developer API</h3>
+                <ul class="release-list">
+                    <li>The slider control's <code>showsValueField</code> is replaced by <a href="slider-control.html"><code>editableValue</code></a>, and sliders gain <code>tickLabels</code>, <code>valueLabels</code>, <code>minimumLabel</code>, <code>maximumLabel</code> and <code>neutralValue</code>.</li>
+                    <li>Added the <a href="spacer-control.html"><code>spacer</code></a> control, and <code>id</code> is now optional on dividers, notes and spacers.</li>
+                    <li>The <a href="layout-control-group.html"><code>layout</code></a> control group replaces <code>layoutItem</code>, covering position, z-index, offsets, display, overflow and isolation; Sizing gains minimum and maximum limits and six width modes; Spacing starts disabled; edge controls link in pairs; and <code>frameworkSpacing</code> controls may declare the CSS their <code>none</code> value emits.</li>
+                    <li>A part's breakpoint defaults are applied as pins on new instances, and the control pages describe the change.</li>
+                    <li>The <a href="manifest-identity.html"><code>icon</code></a> dictionary documents <code>file</code>, <code>symbol</code>, tint shades and <code>rendering</code>; the <a href="advanced-control-group.html">Advanced</a> group documents the custom CSS field; and the video control now hands over its URL and values for the template to write the markup, like the image control.</li>
+                </ul>
+            </section>
+        </div>
+    </article>
+
     <article class="release-build" id="build-11">
         <header class="release-build-header">
             <div>

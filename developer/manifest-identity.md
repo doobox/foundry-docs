@@ -125,7 +125,7 @@ An absolute URL for the part's documentation or support page. Use a stable HTTPS
 <h3 class="property-heading"><code>icon</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: generic mark, gray</span></div>
 
-The part's artwork: one square single-colour glyph plus a system tint. Foundry renders the glyph as a stencil — only its shape and opacity matter — painted white on a tint-filled tile in the Parts panel, and painted in the tint directly in the Structure tree. The system tints adapt to light and dark appearance automatically, so no dark variants exist.
+The part's artwork: one square glyph plus a system tint. By default Foundry renders the glyph as a stencil — only its shape and opacity matter — painted white on a tint-filled tile in the Parts panel, and painted in the tint directly in the Structure tree. The system tints, including their light and dark shades, adapt to light and dark appearance automatically, so no dark variants exist. To use full-colour artwork instead, set `rendering` to `original`.
 
 ```json
 "icon" : {
@@ -139,7 +139,7 @@ The part's artwork: one square single-colour glyph plus a system tint. Foundry r
 
 A square SVG in `Resources/`, at most 64 KiB. Draw the glyph to the edges of the viewBox — the viewBox is the glyph's bounding box, and Foundry supplies all whitespace, fitting the glyph into the same padded area it uses for SF Symbols so both kinds render at one size.
 
-Foundry uses only the glyph's shape and repaints it, so the colour you draw in makes no difference: any solid fill works, including none at all. What does change the result is anything that makes parts of the shape partly transparent — opacity, colours with an alpha channel — which come out faint, and gradients, embedded images, patterns or filters, which flatten into a plain silhouette. Validation warns when it finds any of these.
+Foundry uses only the glyph's shape and repaints it, so the colour you draw in makes no difference: any solid fill works, including none at all. What does change the result is anything that makes parts of the shape partly transparent — opacity, colours with an alpha channel — which come out faint, and gradients, embedded images, patterns or filters, which flatten into a plain silhouette. Validation warns when it finds any of these, unless `rendering` is `original`.
 
 <h3 class="property-heading"><code>icon.symbol</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span></div>
@@ -156,7 +156,28 @@ An SF Symbol name, for parts without drawn artwork. When both `file` and `symbol
 <h3 class="property-heading"><code>icon.tint</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: gray</span></div>
 
-One of `red`, `orange`, `yellow`, `green`, `mint`, `teal`, `cyan`, `blue`, `indigo`, `purple`, `pink`, `brown`, or `gray`, mapping to the macOS system colours. An unrecognised token renders as gray and reports a validation error.
+One of `red`, `orange`, `yellow`, `green`, `mint`, `teal`, `cyan`, `blue`, `indigo`, `purple`, `pink`, `brown`, or `gray`, mapping to the macOS system colours. Add `.light` or `.dark` for a lighter or darker shade of the same colour, such as `blue.light` or `indigo.dark`. Any other colour renders as gray, and any other shade uses the regular colour.
+
+```json
+"icon" : {
+    "symbol" : "rectangle.split.2x1",
+    "tint" : "blue.light"
+}
+```
+
+Shades apply to the Parts panel tile only: the Structure tree paints the glyph in the base colour, so `blue.light` and `blue.dark` both appear blue there. White glyphs have less contrast on light shades, so the regular colours are the safest choice for small or detailed glyphs.
+
+<h3 class="property-heading"><code>icon.rendering</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: monochrome</span></div>
+
+`monochrome` draws the glyph as a white stencil on the tint, as described above. `original` draws an SVG `file` exactly as authored — colours, gradients and transparency included — filling the whole tile with no tint behind it, and appearing as authored in the Structure tree too. Include your own background in original artwork, and make sure it reads well in both light and dark appearance: Foundry cannot adapt it for you. `original` has no effect on `symbol` icons, and any other value draws monochrome.
+
+```json
+"icon" : {
+    "file" : "icon.svg",
+    "rendering" : "original"
+}
+```
 
 <div class="guidance" markdown="1">
 <h3>How Foundry presents the part</h3>

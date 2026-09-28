@@ -75,7 +75,25 @@ The developer, company, or publisher responsible for the part. Foundry displays 
 <h3 class="property-heading"><code>group</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: Other</span></div>
 
-The Parts-panel heading beneath which the part appears. Use `Layout`, `Content`, `Media`, `Navigation`, `Forms`, `Interactive`, or `Other`. Matching is case-insensitive; an omitted or unrecognised value uses Other.
+The Parts-panel heading beneath which the part appears. Matching is case-insensitive; an omitted or unrecognised value uses Other. The panel lists the groups in this order:
+
+| Group | What belongs in it |
+|---|---|
+| `Accessibility` | Parts that help a site meet accessibility needs: skip links, screen-reader text, contrast and focus aids |
+| `Animation` | Motion and transitions: elements that move, fade or morph on scroll, hover or load |
+| `CMS` | Parts that pull their content from an external content management system |
+| `Content` | The written page: headings, body text, quotes, lists and other copy |
+| `Dynamic` | Content fetched live from a data source such as a spreadsheet, feed or API |
+| `Ecommerce` | Selling online: product listings, baskets, checkout links and pricing |
+| `Forms` | Anything a visitor fills in: inputs, choices, uploads and submit buttons |
+| `Interactive` | Elements that respond to a click or tap: dialogs, disclosure panels, slideshows and tooltips |
+| `Layout` | Structure that arranges other parts: sections, grids, columns and wrappers |
+| `Media` | Pictures, film, sound and embedded players from other services |
+| `Navigation` | Ways around the site: menus, bars, crumbs, tab strips and page links |
+| `Security` | Gating and access: password gates, sign-in prompts and protected areas |
+| `SEO` | Search visibility: structured data, meta helpers and rich results |
+| `Utility` | Small helpers with no visual of their own: consent banners, anchors, spacers, separators |
+| `Other` | Anything that fits nowhere else |
 
 ```json
 "group" : "Content"

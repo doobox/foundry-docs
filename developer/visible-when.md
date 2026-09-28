@@ -140,7 +140,7 @@ permalink: "/developer/visible-when.html"
 <h2>Empty and array values</h2>
 <ul class="rule-list">
 <li>
-<code>isEmpty</code> succeeds for an empty String, empty array, unselected asset, or link with no destination.</li>
+<code>isEmpty</code> succeeds for an empty String, empty array, unselected asset, link with no destination, or framework length set to None.</li>
 <li>
 <code>isNotEmpty</code> is the inverse. Neither empty operation accepts a <code>value</code> key.</li>
 <li>Number <code>0</code> and Boolean <code>false</code> are valid values and are never empty.</li>

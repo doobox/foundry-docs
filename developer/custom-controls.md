@@ -8,6 +8,10 @@ permalink: "/developer/custom-controls.html"
 <p class="eyebrow">manifest.json · inspector</p>
 <h1>Custom controls</h1>
 <p class="lede">Each dictionary in <code>inspector</code> creates part of the part Inspector. Declare what the author can change, then read the resulting value from HTML, CSS, JavaScript, or PHP.</p>
+
+<div class="note">
+<strong>See every control live.</strong> With <em>Enable Developer Tools</em> on in Settings, the Parts panel gains a <strong>Controls</strong> tab listing every control and control group. Click one and Foundry shows it on a scratch <em>Controls</em> page — the real Inspector controls on the right, a sheet on the canvas that reacts as you change them, and <strong>Snippets</strong> at the top of the Inspector with a Copy button for the declaration, its template usage and any CSS. The scratch page lives only in memory: it is never listed with your pages, saved, exported or undone, and it is discarded when you move to a real page.
+</div>
 <h2>Declare one control</h2>
 <p>Every dictionary in <code>inspector</code> with a <code>type</code> is one complete control declaration. Value-producing controls have a stable <code>id</code>, an author-facing <code>label</code> value, a <code>type</code>, a matching <code>defaults.base</code>, and explicit responsive behaviour. Controls declared at the top level of the <code>inspector</code> appear in the <code>Settings</code> Inspector section; wrap controls in a section entry to place them elsewhere.</p>
 

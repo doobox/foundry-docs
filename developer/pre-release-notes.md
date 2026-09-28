@@ -11,6 +11,7 @@ description: Highlights from Foundry preview builds distributed before public re
     <h1>Pre-release notes</h1>
     <p class="lede">A concise history of the preview builds shared with Foundry’s early developers. Each build includes everything listed in the builds before it.</p>
     <nav class="release-jump" aria-label="Jump to a preview build">
+        <a href="#build-14">Build 14</a>
         <a href="#build-12">Build 12</a>
         <a href="#build-11">Build 11</a>
         <a href="#build-10">Build 10</a>
@@ -29,6 +30,72 @@ description: Highlights from Foundry preview builds distributed before public re
 </div>
 
 <div class="release-timeline">
+    <article class="release-build" id="build-14">
+        <header class="release-build-header">
+            <div>
+                <span class="release-build-number">Build 14</span>
+                <h2>Controls showcase, responsive images and a focal point everywhere</h2>
+            </div>
+            <time datetime="2026-09-28">28 September 2026</time>
+        </header>
+        <p class="release-summary">Build 14 adds a Controls section to the Developer panel that demonstrates every control and control group live, with copyable snippets; rebuilds the Image part around renditions, a focal point and a Fit choice; gives the Sizing group an aspect ratio and the Background group a focal point; lets an image come from a web address; and stops a duplicated control id from crashing the app.</p>
+
+        <div class="callout breaking">
+            <h3>Breaking change for packs</h3>
+            <ul class="release-list">
+                <li><strong>The Background group's Position presets are gone.</strong> <code>control.background.backgroundPosition</code> and <code>control.background.backgroundHoverPosition</code> no longer exist; the group's image controls have a Focal Point button instead, and <code>control.background.position</code> (and <code>hover.position</code>) now carry that point as <code>x% y%</code>. Templates that read the removed values must switch to <code>position</code> or to the image's own <code>control.background.backgroundImage.position</code>. There is no automatic migration during the preview period.</li>
+            </ul>
+        </div>
+
+        <div class="release-groups">
+            <section class="release-group">
+                <h3>Developer panel</h3>
+                <ul class="release-list">
+                    <li>The panel has two sections, <strong>Debugger</strong> and <strong>Controls</strong>. Controls lists every control and control group; click one and Foundry shows it on a scratch <em>Controls</em> page with the real Inspector controls, a canvas sheet that reacts as you change them, and <strong>Snippets</strong> at the top of the Inspector with a Copy button for the declaration, its template usage and any CSS. An <strong>API Docs</strong> button beside the part title opens the reference page.</li>
+                    <li>Each showcase exercises the control's forms — presentation variants, count arrays, responsive values, ticks and labels, configured control groups — and prints every template value the control provides.</li>
+                    <li>The scratch page lives only in memory: never listed with your pages, saved, exported or undone. Leaving Controls discards it, returns you to the page you were on and unloads the showcase parts; they are read in only while the section is open.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Image part</h3>
+                <ul class="release-list">
+                    <li><strong>Renditions and <code>srcset</code>.</strong> The built-in Image declares 480, 960 and 1600 pixel renditions and emits <code>srcset</code> and <code>sizes</code>, with <code>sizes</code> following the Sizing group's width. Renditions are made only at export, once per image and size, and cached.</li>
+                    <li><strong>Focal Point</strong> is a button in the image control: turning it on shows the draggable marker, turning it off returns the image to centre. The image well's <strong>Pick</strong> button splits: <em>From URL…</em> imports a copy of a web image or links to it live, and an image dragged from a browser imports a copy.</li>
+                    <li>A <strong>Loading</strong> choice (Lazy, or Immediate with <code>fetchpriority="high"</code>), a <strong>Fit</strong> choice (Cover or Contain) shown once the part has a shape of its own, Alignment under Sizing and hidden when the part fills its parent, and the whole-part link named by the alt text when no label is given.</li>
+                    <li>A fixed, minimum or maximum height, or an aspect ratio, now reaches the image, so it is cropped around its focal point rather than clipped from the top.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Control groups</h3>
+                <ul class="release-list">
+                    <li><strong>Sizing</strong> gains <strong>Aspect ratio</strong> — 1:1, 4:3, 3:2, 16:9, 21:9 or a custom pair — shown when Height is Fit content.</li>
+                    <li><strong>Background</strong> images offer the Focal Point button, and the chosen point becomes <code>background-position</code>.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Packs and the developer API</h3>
+                <ul class="release-list">
+                    <li>Every image rendition reports its own <code>width</code> and <code>height</code> — <code>control.hero.rendition.small.width</code> — so <code>srcset</code> descriptors are right for portrait images and for images already smaller than a rendition. The canvas reports the same sizes while showing the full image.</li>
+                    <li>An image whose value is a web address renders as is: its dimensions, renditions and file metadata are empty, so guard <code>srcset</code> behind <code>{{ if control.hero.width }}</code>, as the <a href="image-control.html">image control</a>'s complete example does.</li>
+                    <li><code>visibleWhen</code>'s <code>isEmpty</code> and <code>isNotEmpty</code> treat a framework length left at None as empty, so a control can appear only once a limit is set.</li>
+                    <li>A manifest's <code>group</code> may now name any of fifteen Parts-panel headings, listed on the <a href="manifest-identity.html">identity</a> page in the order the panel shows them.</li>
+                    <li>The <a href="image-control.html">image control</a> page gains an example for every key and a complete manifest, template and stylesheet.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Fixes</h3>
+                <ul class="release-list">
+                    <li>Two controls or text macros with the same id no longer crash Foundry while a pack loads; the validator reports <em>Duplicate control identifier</em> and the part is rejected.</li>
+                    <li>The built-in Divider is created under its current <code>foundry.layout.divider</code> identifier.</li>
+                </ul>
+            </section>
+        </div>
+    </article>
+
     <article class="release-build" id="build-12">
         <header class="release-build-header">
             <div>

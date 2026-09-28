@@ -219,6 +219,21 @@ Switching away from Fill resets `flex-grow` to `0`. The group does not change `f
 
 A pixel height from 0 through 10,000. Shown when `heightMode` is `custom`.
 
+<h3 class="property-heading"><code>control.sizing.aspectRatio</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="default">Default: none</span><span>Responsive</span></div>
+
+One of `none`, `1 / 1`, `4 / 3`, `3 / 2`, `16 / 9`, `21 / 9`, or `custom`. Shown when `heightMode` is `auto`, because a ratio can only shape a part whose height follows its width. The values other than `none` and `custom` are ready to use as a CSS `aspect-ratio`.
+
+<h3 class="property-heading"><code>control.sizing.aspectRatioWidth</code></h3>
+<div class="property-meta"><span class="property-type">Number</span><span class="default">Default: 4</span><span>Responsive</span></div>
+
+The first term of a custom ratio, from 1 through 1,000. Shown when `aspectRatio` is `custom`.
+
+<h3 class="property-heading"><code>control.sizing.aspectRatioHeight</code></h3>
+<div class="property-meta"><span class="property-type">Number</span><span class="default">Default: 3</span><span>Responsive</span></div>
+
+The second term of a custom ratio, from 1 through 1,000. Shown when `aspectRatio` is `custom`.
+
 <h3 class="property-heading"><code>control.sizing.minWidth</code></h3>
 <div class="property-meta"><span class="property-type">Framework spacing</span><span class="default">Default: none</span><span>Responsive</span></div>
 
@@ -244,7 +259,7 @@ The largest height, as a framework spacing token or custom length. `none` emits 
 <h3 class="property-heading"><code>control.sizing.css</code></h3>
 <div class="property-meta"><span class="property-type">CSS declarations</span></div>
 
-The width, height and size limits as CSS declarations. A group narrowed with `excludeControls` composes only the declarations it still generates; a group containing only minimum/maximum controls also exposes this value.
+The width, height, aspect ratio and size limits as CSS declarations. A group narrowed with `excludeControls` composes only the declarations it still generates; a group containing only minimum/maximum controls also exposes this value.
 
 The mapping it applies, and why:
 
@@ -270,6 +285,14 @@ Fill parent accounts for margins. Custom and Framework container also shrink whe
 
 At least viewport height uses a minimum rather than a fixed height, allowing the section to grow with content. A larger Min height remains effective. As with ordinary CSS sizing, a minimum wins when it conflicts with a maximum.
 
+| Aspect ratio | Composes |
+|---|---|
+| None, or any height mode other than Fit content | `aspect-ratio: auto` |
+| A preset | `aspect-ratio: 16 / 9` and so on |
+| Custom | `aspect-ratio: <aspectRatioWidth> / <aspectRatioHeight>` |
+
+The ratio follows the height block. Writing `auto` when it does not apply means a ratio chosen at a wider breakpoint cannot leak into a narrower one that uses a fixed height.
+
 Breakpoint and omission rules:
 
 - Max height set to None writes `max-height: none`, clearing an earlier maximum.
@@ -284,6 +307,7 @@ Use these when the part needs a different mapping — a wrapper that fills while
 
 - `control.sizing.widthMode`, `control.sizing.heightMode`: Strings — the semantic choice, not CSS.
 - `control.sizing.customWidth`, `control.sizing.customHeight`: Numbers, in pixels with no unit attached.
+- `control.sizing.aspectRatio`: a String — `none`, `custom` or a CSS ratio such as `16 / 9`. `control.sizing.aspectRatioWidth` and `control.sizing.aspectRatioHeight`: the two Numbers of a custom ratio.
 - `control.sizing.minWidth`, `control.sizing.maxWidth`, `control.sizing.minHeight`, `control.sizing.maxHeight`: a resolved CSS length.
 
 The four constraints are single framework spacing values, with the same qualified fields as the standalone [Framework spacing control](framework-spacing-control.html):

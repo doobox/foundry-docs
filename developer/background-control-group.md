@@ -288,10 +288,7 @@ The resolved framework or custom colour, including opacity.
 
 The selected managed image path. Its structured fields follow the [Image control](image-control.html).
 
-<h3 class="property-heading"><code>control.background.backgroundPosition</code></h3>
-<div class="property-meta"><span class="property-type">String</span><span class="default">Default: center</span><span>Responsive</span></div>
-
-A CSS `background-position` keyword or two-keyword combination offered by the Inspector.
+The image offers the Inspector's Focal Point button. The chosen point becomes the background's `background-position` as `x% y%`, so it stays in view when `cover` crops the image. The default is `50% 50%`. `control.background.backgroundImage.position` returns the same value.
 
 <h3 class="property-heading"><code>control.background.backgroundSize</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="default">Default: cover</span><span>Responsive</span></div>
@@ -345,7 +342,6 @@ When hover is supported, the Hover configuration exposes the corresponding selec
 - `control.background.backgroundHoverStyle`
 - `control.background.backgroundHoverColor`
 - `control.background.backgroundHoverImage`
-- `control.background.backgroundHoverPosition`
 - `control.background.backgroundHoverSize`
 - `control.background.backgroundHoverRepeat`
 - `control.background.backgroundHoverGradientType`
@@ -375,7 +371,7 @@ The built-in stylesheet positions the wrapper behind content, clips its contents
 
 <h3 class="property-heading">Individual values</h3>
 
-`color` is a colour or `transparent`. `image` is `none`, a `url(…)`, or a composed `linear-gradient(…)`/`radial-gradient(…)`/`conic-gradient(…)`. `position`, `size` and `repeat` are the image keywords. There is no `videoCSS` output: host structure belongs in the part's stylesheet.
+`color` is a colour or `transparent`. `image` is `none`, a `url(…)`, or a composed `linear-gradient(…)`/`radial-gradient(…)`/`conic-gradient(…)`. `position` is the image's focal point as `x% y%`; `size` and `repeat` are the image keywords. There is no `videoCSS` output: host structure belongs in the part's stylesheet.
 
 `css` and the image-related values have `control.background.hover.*` counterparts; video is Static-only. The individual `backgroundColor`, `backgroundGradientFrom` and similar control values also remain available when a part wants to compose something different — each with its own control's shape, so the framework colours carry the [Framework colour control](framework-colour-control.html) fields and `backgroundImage` carries the [Image control](image-control.html) fields.
 

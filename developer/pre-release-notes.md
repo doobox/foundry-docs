@@ -39,6 +39,31 @@ description: Highlights from Foundry preview builds distributed before public re
         </header>
         <p class="release-summary">Build 12 rebuilds Container, Flexbox and Grid and adds a simple Columns part, gives every built-in part the same set of Inspector sections — including per-instance custom CSS — makes developer breakpoint defaults behave like ordinary pinned values, replaces the Inspector slider with the native one and expands its API, adds a Video part and more expressive part icons, and makes pasting into large pages effectively instant.</p>
 
+        <div class="callout breaking">
+            <h3>Breaking changes for packs built with Build 11</h3>
+            <p>Parts made for earlier builds will not load until their <code>manifest.json</code> is updated. The most common failure is <em>“Missing key 'id' (at inspector[…].controls[…])”</em>, which points at a control group without an <code>id</code>.</p>
+            <ul class="release-list">
+                <li><strong>Every control group needs an <code>id</code>.</strong> <code>sizing</code>, <code>spacing</code>, <code>background</code>, <code>borders</code>, <code>effects</code>, <code>layout</code>, <code>reveal</code> and <code>flexbox</code> references must declare one; only <code>advanced</code> is exempt. The id is the group's template namespace, so using the type name keeps existing templates working: <code>{ "type": "spacing", "id": "spacing" }</code> is read as <code>control.spacing.css</code>, exactly as before.</li>
+                <li><strong>Group configuration keys were renamed</strong> and the old names are rejected:
+                    <table>
+                        <thead><tr><th>Build 11</th><th>Build 12</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>defaultOverrides</code></td><td><code>defaults</code></td></tr>
+                            <tr><td><code>optionOverrides</code></td><td><code>allowedOptions</code></td></tr>
+                            <tr><td><code>omit</code></td><td><code>excludeControls</code></td></tr>
+                            <tr><td><code>target</code></td><td><code>targetSelector</code></td></tr>
+                            <tr><td><code>states</code> and <code>styles</code> on <code>background</code></td><td><code>supportsHover</code> and <code>backgroundTypes</code></td></tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li><strong><code>layoutItem</code> is gone.</strong> Use the <a href="layout-control-group.html"><code>layout</code></a> control group instead.</li>
+                <li><strong>Slider:</strong> <code>showsValueField</code> is replaced by <a href="slider-control.html"><code>editableValue</code></a>.</li>
+                <li><strong>Video control:</strong> the template now writes the <code>&lt;video&gt;</code> element from the control's values, as the image control does; see the <a href="video-control.html">video control</a> page.</li>
+                <li><strong>Part icons:</strong> the separate icon and tile artwork files are no longer read. A pack without an <a href="manifest-identity.html"><code>icon</code></a> dictionary still loads, but shows a generic icon until it declares one.</li>
+            </ul>
+            <p>Each control group page shows the current keys with an <code>id</code> in every example. There is no automatic migration during the preview period.</p>
+        </div>
+
         <div class="release-groups">
             <section class="release-group">
                 <h3>Layout parts</h3>

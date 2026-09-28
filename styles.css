@@ -160,6 +160,14 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .note, .callout { margin: 28px 0; padding: 16px 18px; border: 1px solid #9fbee8; border-radius: 9px; background: #eff6ff; color: #334155; }
 .note strong, .callout strong { color: var(--accent); }
 .callout.warning { border-color: #e4d2b7; background: #fbf6ed; color: #6e542e; }
+.callout.breaking { border-color: #e6b3b3; background: #fdf2f2; color: #7a2a2a; }
+.callout.breaking strong { color: #b42318; }
+.callout.breaking h3 { margin: 0 0 8px; font-size: 1rem; color: #b42318; }
+.callout.breaking p:last-child, .callout.breaking ul:last-child { margin-bottom: 0; }
+.callout.breaking code { background: rgba(180,35,24,.08); border-color: rgba(180,35,24,.18); }
+.callout.breaking table { width: 100%; margin: 10px 0 12px; border-collapse: collapse; font-size: .92rem; }
+.callout.breaking th, .callout.breaking td { padding: 5px 8px; text-align: left; border-bottom: 1px solid rgba(180,35,24,.15); }
+.release-build .callout.breaking { margin: 0 0 22px; max-width: 760px; }
 
 .api-meta { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 18px; }
 .pill { padding: 3px 9px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: .77rem; }

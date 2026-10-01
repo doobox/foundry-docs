@@ -203,12 +203,28 @@
             "developer/effects-control-group.html"
           ],
           [
+            "Transitions",
+            "developer/transitions-control-group.html"
+          ],
+          [
+            "Filters",
+            "developer/filters-control-group.html"
+          ],
+          [
+            "Transforms",
+            "developer/transforms-control-group.html"
+          ],
+          [
             "Flexbox",
             "developer/flexbox-control-group.html"
           ],
           [
             "Reveal",
             "developer/reveal-control-group.html"
+          ],
+          [
+            "Link",
+            "developer/link-overlay-control-group.html"
           ],
           [
             "Layout",

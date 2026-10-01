@@ -98,7 +98,7 @@ A dictionary containing the required `base` value and optional breakpoint values
 <h3 class="property-heading"><code>defaults.base</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="required">Required</span></div>
 
-Groups the initial palette and optional appearance-specific shades. The only accepted keys are `palette`, `lightShade`, and `darkShade`. A string or array is not accepted; shade keys belong inside this dictionary, not alongside `defaults.base`.
+Groups the initial palette, optional appearance-specific shades and initial opacity. The accepted keys are `palette`, `lightShade`, `darkShade`, and `opacity`. A string or array is not accepted; shade keys belong inside this dictionary, not alongside `defaults.base`. The nested numeric `opacity` requires the control-level Boolean `opacity` to be true.
 
 <h3 class="property-heading"><code>defaults.base.palette</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="required">Required</span></div>
@@ -141,6 +141,24 @@ Available only inside a `frameworkColor` default dictionary with a framework-rol
 
 The initial dark-appearance shade number, from `1` to `11` inclusive. Omit it to capture the palette's dark default when the part is created. It uses the same palette and ribbon as `lightShade`, but stores an independent fixed shade number. Available only inside a `frameworkColor` default dictionary with a framework-role or standard `palette`; it cannot be combined with `palette: custom`. It affects initial creation, not subsequent palette choices in the Inspector.
 
+<h3 class="property-heading"><code>defaults.base.opacity</code></h3>
+<div class="property-meta"><span class="property-type">Number</span><span class="optional">Optional</span><span class="default">Default: 1</span></div>
+
+Initial opacity for both appearances, from `0` (transparent) to `1` (opaque). Requires `opacity: true` on the control. Applies to framework palettes, standard palettes and custom colours. Authors can subsequently adjust light and dark opacity independently using the canvas appearance buttons. Responsive default dictionaries may also supply this value.
+
+For a black tint starting at 20% opacity:
+
+```json
+{
+    "type": "frameworkColor",
+    "id": "overlayColor",
+    "label": "Overlay colour",
+    "allowsCustom": true,
+    "opacity": true,
+    "defaults": { "base": { "palette": "standard.black", "opacity": 0.2 } }
+}
+```
+
 <h3 class="property-heading"><code>responsive</code></h3>
 <div class="property-meta"><span class="property-type">Boolean</span><span class="optional">Optional</span><span class="default">Default: false</span></div>
 
@@ -161,7 +179,7 @@ The initial literal colour for both appearances. It must be `#RRGGBB`, requires 
 <h3 class="property-heading"><code>opacity</code></h3>
 <div class="property-meta"><span class="property-type">Boolean</span><span class="optional">Optional</span><span class="default">Default: false</span></div>
 
-Allows alpha for the literal Custom Colour choice. It does not add an opacity adjustment to palette selections.
+Adds a 0–100% opacity slider beneath the colour control for both palette selections and Custom Colour. Also enables alpha in the custom colour picker; the picker and slider edit the same appearance-specific value. When omitted or false, no slider is shown and stored opacity is not applied to output. Use `defaults.base.opacity` to choose the initial opacity; otherwise it starts at 100%.
 
 <h3 class="property-heading"><code>outputFormat</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: hex</span></div>
@@ -170,7 +188,7 @@ Controls how the resolved colour is supplied to templates. Only the complete-col
 
 ## Return value
 
-Returns a CSS colour, not a palette ID or shade number. The canvas resolves the appearance being edited. Light-only and dark-only sites export the corresponding colour. Sites supporting both export a CSS `light-dark(light, dark)` colour, following the browser's system preference unless explicitly overridden. Custom Colour selections include their appearance-specific opacity when enabled. Use the result directly in CSS rather than treating it as a hexadecimal string.
+Returns a CSS colour, not a palette ID or shade number. The canvas resolves the appearance being edited. Light-only and dark-only sites export the corresponding colour. Sites supporting both export a CSS `light-dark(light, dark)` colour, following the browser's system preference unless explicitly overridden. Palette and Custom Colour selections include their appearance-specific opacity when enabled, including in the qualified channel values. Use the result directly in CSS rather than treating it as a hexadecimal string.
 
 For sites supporting both appearances, a part can call `window.foundryAppearance.set('light')`, `.set('dark')`, or `.set('system')` in its browser script. The visitor's choice is remembered for that site. This interface is not installed in the editing canvas or on single-appearance sites.
 

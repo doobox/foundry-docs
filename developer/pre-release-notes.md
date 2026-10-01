@@ -11,6 +11,7 @@ description: Highlights from Foundry preview builds distributed before public re
     <h1>Pre-release notes</h1>
     <p class="lede">A concise history of the preview builds shared with Foundry’s early developers. Each build includes everything listed in the builds before it.</p>
     <nav class="release-jump" aria-label="Jump to a preview build">
+        <a href="#build-15">Build 15</a>
         <a href="#build-14">Build 14</a>
         <a href="#build-12">Build 12</a>
         <a href="#build-11">Build 11</a>
@@ -30,6 +31,102 @@ description: Highlights from Foundry preview builds distributed before public re
 </div>
 
 <div class="release-timeline">
+    <article class="release-build" id="build-15">
+        <header class="release-build-header">
+            <div>
+                <span class="release-build-number">Build 15</span>
+                <h2>Filters, transforms, transitions and a whole-part Link group</h2>
+            </div>
+            <time datetime="2026-10-01">1 October 2026</time>
+        </header>
+        <p class="release-summary">Build 15 adds four control groups — Filters, Transforms, Transitions and Link — to every built-in part and to the developer API; gives the Background group a shared overlay and makes video an explicit opt-in; puts an opacity slider on framework colours; reworks Container, Flexbox and Grid so children keep their natural size and sections centre their content without extra controls; adds Reset to every Inspector control and section; reserves the <code>foundry.</code> identifier prefix; and fixes a colour bug that hit every German-region Mac.</p>
+
+        <div class="callout breaking">
+            <h3>Breaking changes for packs and existing projects</h3>
+            <ul class="release-list">
+                <li><strong>The <code>foundry.</code> identifier prefix is reserved.</strong> A pack whose <code>id</code> starts with <code>foundry.</code> is refused at load time with <em>“The 'foundry.' prefix is reserved for Foundry's own parts”</em>, whether or not validation is enabled. Rename the pack with your own reverse-DNS prefix.</li>
+                <li><strong>Background video is opt-in.</strong> Omitting <code>backgroundTypes</code> now offers colour, image and gradient only. A part that relied on the default to offer video must list <code>"video"</code> explicitly, insert <code>{{ control.background.video }}</code> as a direct child of a positioned, isolated host, and keep Layout from offering None or Static. <code>control.background.backgroundVideo</code> and <code>backgroundVideoLoop</code> are generated only when video is declared.</li>
+                <li><strong>Sizing's Fit content width mode is gone.</strong> <code>allowedOptions.widthMode</code> that lists <code>fit</code> fails validation; a stored <code>fit</code> renders as <code>width: auto</code>. The remaining modes are Auto, Full, Screen, Site width and Custom. Only the titles changed: <code>full</code>, <code>screen</code>, <code>breakpoint</code> and <code>custom</code> are the same values.</li>
+                <li><strong>Built-in whole-part links moved to the Link group.</strong> Container, Flexbox, Grid, Flex Item, Grid Item and Image no longer declare their own <code>destination</code> and <code>linkLabel</code> controls; they use <code>control.link.destination</code> and <code>control.link.accessibleName</code>. Existing links on these parts carry over.</li>
+                <li><strong>Layout parts behave differently.</strong> Inside a Container, children keep their natural width — a button stays button-sized — rather than stretching; Flexbox starts empty and stacks vertically; Grid starts empty with start alignment and its column preview on. Pages built on Build 14 will lay out differently until their parts are revisited. Container's Content Spacing section and its Breakpoint width option are replaced by a single <strong>Container</strong> section with a <strong>Site Width</strong> option.</li>
+            </ul>
+        </div>
+
+        <div class="release-groups">
+            <section class="release-group">
+                <h3>New control groups</h3>
+                <ul class="release-list">
+                    <li><strong><a href="filters-control-group.html">Filters</a></strong>: blur, brightness, contrast, saturation, grayscale, sepia, invert and hue rotation, a drop shadow and a backdrop blur, with independent Normal and Hovered states. Output is <code>control.filters.css</code> and <code>control.filters.hover.css</code>.</li>
+                    <li><strong><a href="transforms-control-group.html">Transforms</a></strong>: origin, scale, rotation, X and Y translation and X and Y skew, again with Normal and Hovered states, as <code>control.transforms.css</code> and <code>control.transforms.hover.css</code>.</li>
+                    <li><strong><a href="transitions-control-group.html">Transitions</a></strong>: an on switch, the property scope, easing, duration and delay for state changes, as <code>control.transitions.css</code>.</li>
+                    <li><strong><a href="link-overlay-control-group.html">Link</a></strong> (<code>linkOverlay</code>): a Destination and an Accessible name that turn the part's root element into an anchor when a destination is chosen. Position, classes, children and your display rules are untouched; a keyboard focus outline is supplied; nested links, buttons and form controls prevent conversion and are reported with a <code>data-foundry-link-error</code> diagnostic. No template work is needed.</li>
+                    <li>Every built-in part gains Filters, Transforms, Transitions and Link sections in the Inspector.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Control groups</h3>
+                <ul class="release-list">
+                    <li><strong>Background</strong> gains an <strong>Overlay</strong> switch and <strong>Overlay colour</strong> for image and video backgrounds, black at 20% by default. One overlay serves both the Normal and Hovered states; it never changes on hover. The hover state is now titled Hovered. Background videos pause when they scroll out of view or the tab is hidden, and resume when they return.</li>
+                    <li><strong>Framework colour</strong> controls with <code>opacity: true</code> show a 0–100% slider for palette colours as well as custom ones, and <code>defaults.base.opacity</code> sets the starting value. Light and dark opacity can differ.</li>
+                    <li><strong>Sizing</strong>'s Width menu reads Auto, Full, Screen, Site width and Custom. Max width and Max height start unconstrained, and switching one to a custom length begins at a useful 1200px or 800px instead of zero.</li>
+                    <li><strong>Flexbox</strong> labels are in plain English: Horizontal and Vertical directions, Wrapping, Distribution, Item Alignment and Wrapped Lines.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Built-in parts</h3>
+                <ul class="release-list">
+                    <li><strong>Container 3.3.0.</strong> A single Container section holds Width (Site Width, Full, Fit Content, Custom), Vertical position and Content Gap; Vertical position appears only once the section has spare height. The content rail is centred and children own their own margins and padding. Container's defaults for its children are low priority, so a child's own Custom width, Site width, Max width or Min height now wins; previously the Container overrode them.</li>
+                    <li><strong>Flexbox 2.2.0</strong> starts empty and vertical instead of pre-filling Flex Items. <strong>Grid 1.2.0</strong> starts empty with start alignment and its preview columns on. <strong>Flex Item</strong> and <strong>Grid Item 1.1.0</strong> rename Equal Width to Equal Space, Align to Item Alignment and Gap to Content Gap.</li>
+                    <li><strong>Image</strong> gains a <strong>Width</strong> of its own — Fill, Original or Custom — that drives both the CSS width and the <code>sizes</code> attribute. SVGs and animated GIFs no longer have renditions generated for them.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Inspector and canvas</h3>
+                <ul class="release-list">
+                    <li><strong>Reset.</strong> Right-click any control for Reset, which returns it to the part's default at every breakpoint, and use Reset Section at the foot of a section to reset everything in it in one undoable step, including a global part's shared definition.</li>
+                    <li>The Advanced section's <strong>CSS</strong> field keeps the cursor where you are typing and highlights CSS syntax, sharing the editor used by the HTML part.</li>
+                    <li>The image well's <strong>Pick</strong> button opens the file chooser and <strong>Image on the Web</strong> offers Import Copy or Link for an address.</li>
+                    <li>The canvas no longer leaves a part in its hovered appearance after the pointer leaves the window, and a constrained empty Container highlights its visible drop target.</li>
+                    <li>The canvas remembers the breakpoint you last chose and restores it on launch, falling back by width when a project uses different breakpoints.</li>
+                    <li>The home page's filename can be edited, but accepts only <code>index</code>, <code>index.html</code> or <code>index.php</code>.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Packs and the developer API</h3>
+                <ul class="release-list">
+                    <li>The <code>type</code> of a control group may now be <code>filters</code>, <code>transforms</code>, <code>transitions</code> or <code>linkOverlay</code>. The validator reports a second Link group on one root, a root the Link group cannot convert, and interactive descendants that would stop conversion.</li>
+                    <li>A <code>frameworkSpacing</code> control's <code>noneValue</code> — the CSS its None choice emits, <code>auto</code> or <code>none</code> instead of <code>0</code> — is documented for the first time on the <a href="framework-spacing-control.html">framework spacing</a> page.</li>
+                    <li><code>defaults.base.opacity</code> on a framework colour is validated: it requires <code>opacity: true</code> and must be a number from 0 to 1.</li>
+                    <li>Numbers written into CSS and HTML always use a dot for the decimal point and never a thousands separator, whatever the user's region.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Documentation</h3>
+                <ul class="release-list">
+                    <li>New pages for the <a href="filters-control-group.html">Filters</a>, <a href="transforms-control-group.html">Transforms</a>, <a href="transitions-control-group.html">Transitions</a> and <a href="link-overlay-control-group.html">Link</a> groups, listed under Control groups in the sidebar.</li>
+                    <li>The <a href="background-control-group.html">Background</a> page is rewritten around opt-in video and the shared overlay; <a href="framework-colour-control.html">Framework colour</a> documents the opacity slider and default; <a href="sizing-control-group.html">Sizing</a> lists the five width modes; <a href="manifest-identity.html">Identity</a> states the reserved prefix.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Fixes</h3>
+                <ul class="release-list">
+                    <li>On a Mac set to a region that writes decimals with a comma, any colour opacity below 100% produced <code>rgb(91 91 214 / 0,819)</code>, which browsers reject, so the colour vanished. The alpha is now always written with a dot.</li>
+                    <li>Adding an SVG to an Image part no longer raises a persistent missing-image warning: renditions are made only for images that can have them.</li>
+                    <li>Typing in the Advanced CSS field no longer sends the cursor to the end after each character.</li>
+                    <li>A child's Sizing width inside a Container was overridden by the Container's own child rules; measured in WebKit, a 300px child filled the full 1024px rail. Fixed.</li>
+                    <li>The built-in Flexbox failed to load after its identifier changed to <code>foundry.layout.flexbox</code>; Flex Item's allowed parents and the app's own reference now match.</li>
+                    <li>Entering <code>index.htm</code> as the home page filename silently reverted; the rule is now explicit.</li>
+                </ul>
+            </section>
+        </div>
+    </article>
+
     <article class="release-build" id="build-14">
         <header class="release-build-header">
             <div>

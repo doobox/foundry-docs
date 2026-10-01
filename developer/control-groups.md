@@ -119,7 +119,7 @@ You can leave all of these out. Most groups need only `type` and `id`.
 <h3 class="property-heading"><code>type</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="required">Required</span></div>
 
-One of `background`, `spacing`, `sizing`, `borders`, `effects`, `flexbox`, `layout`, `reveal`, or `advanced`. Each group's page lists its controls and output.
+One of `background`, `spacing`, `sizing`, `borders`, `effects`, `filters`, `transforms`, `transitions`, `flexbox`, `layout`, `reveal`, `linkOverlay`, or `advanced`. Each group's page lists its controls and output.
 
 <h3 class="property-heading"><code>id</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="required">Required except Advanced</span></div>
@@ -179,16 +179,22 @@ Each group's reference documents which controls are responsive and what its None
 - [Sizing](sizing-control-group.html): width, height and limits.
 - [Spacing](spacing-control-group.html): padding and margin.
 - [Flexbox](flexbox-control-group.html): arrange immediate children.
-- [Background](background-control-group.html): colour, image, gradient and video.
+- [Background](background-control-group.html): colour, image and gradient by default; video is an explicit opt-in with positioning requirements.
 - [Borders](borders-control-group.html): border appearance and corner radius.
 - [Effects](effects-control-group.html): shadow and opacity.
+- [Filters](filters-control-group.html): normal and hovered filters, drop shadows and backdrop blur.
+- [Transforms](transforms-control-group.html): normal and hovered scale, rotation, translation and skew.
+- [Transitions](transitions-control-group.html): property scope, easing, duration and delay for CSS state changes.
 - [Layout](layout-control-group.html): positioning, visibility, overflow and stacking.
 - [Reveal](reveal-control-group.html): automatic entrance animation.
+- [Link](link-overlay-control-group.html): a whole-part destination and accessible name.
 - [Advanced](advanced-control-group.html): native HTML ID, classes and attributes.
 
 CSS groups supply declarations; place their `.css` value inside a CSS rule. If several groups share an element, put Layout last so its Hidden setting can override another group's `display` declaration.
 
 Reveal is different from the CSS groups: it runs an animation. Its optional `targetSelector` chooses one inner element; omitting it selects the part root. See the [Reveal target example](reveal-control-group.html#animate-an-inner-element).
+
+Link automatically converts a supported root element into an anchor when a destination is selected, keeping the chosen position and supplying a keyboard focus outline. No template or CSS integration is needed.
 
 Hand-written controls do not become groups because their IDs resemble generated controls. Declare the group explicitly to use its composed output.
 {% endraw %}

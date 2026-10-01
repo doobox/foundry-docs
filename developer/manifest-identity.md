@@ -28,6 +28,8 @@ The oldest Foundry part API the part requires. Use `1` for the current API. A pa
 
 A globally unique, stable reverse-domain identifier. Foundry uses it for saved part instances, template deduplication, and package identity. Changing it creates a different part. Templates can read it as `{{ package.id }}`.
 
+The `foundry.` prefix is reserved for Foundry's own parts. A pack that uses it anywhere else is rejected when it loads, whatever the validation setting, so it can never shadow a built-in.
+
 ```json
 "id" : "uk.co.example.callout"
 ```

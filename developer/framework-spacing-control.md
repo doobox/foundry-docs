@@ -83,6 +83,35 @@ A mode button beside the control switches between framework values and a custom 
 
 Allows the selection to override at a responsive breakpoint. Use the output in the part’s CSS template for responsive rules. The selection is shared between light and dark appearances.
 
+<h3 class="property-heading"><code>noneValue</code></h3>
+<div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: 0</span></div>
+
+The CSS emitted when the user chooses None. Without it, None becomes `0`, which is right for a gap or a minimum. Properties whose "no constraint" is spelt differently need their own keyword: `none` for a maximum, `auto` for a width or flex basis, `normal` for a gap that should fall back to the browser's own value. The string is written into the CSS as given, so it must be a valid value for the property the template applies it to.
+
+Only the CSS output changes. `{{ control.<id>.value }}` still returns `0` and `{{ control.<id>.unit }}` an empty string. Choosing None is a user action; `noneValue` does not make None the default, which stays whatever `defaults.base` says.
+
+This lets a template interpolate the control unconditionally rather than guarding it. The built-in Sizing group uses it for its limits: minimums emit `0`, maximums emit `none`.
+
+```json
+{
+    "type" : "frameworkSpacing",
+    "id" : "maxWidth",
+    "label" : "Max width",
+    "noneValue" : "none",
+    "defaults" : {
+        "base" : "none"
+    }
+}
+```
+
+```css
+:instance {
+    max-width: {{ control.maxWidth }};
+}
+```
+
+Only `frameworkSpacing` accepts `noneValue`. The four-edge padding and margin controls always emit `0` for None, and other control types reject the key.
+
 <h3 class="property-heading"><code>tooltip</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="optional">Optional</span><span class="default">Default: Spacing</span></div>
 
@@ -110,7 +139,7 @@ Controls when this control's value is available to templates. `always` preserves
 - `{{ control.gap.value }}`: numeric amount.
 - `{{ control.gap.unit }}`: corresponding unit.
 
-Framework amounts resolve in `rem`; custom amounts retain their entered unit. None and missing framework choices resolve to CSS `0`, numeric `0`, and an empty unit. A custom zero retains its chosen unit. Missing choices remain marked in the Inspector until replaced.
+Framework amounts resolve in `rem`; custom amounts retain their entered unit. None and missing framework choices resolve to CSS `0`, numeric `0`, and an empty unit; set `noneValue` to emit a different CSS keyword in that case. A custom zero retains its chosen unit. Missing choices remain marked in the Inspector until replaced.
 
 Do not append units to the CSS output. Numeric amounts are not browser-computed pixels: use the unit alongside the number. Framework amounts reflect the framework at render time, not subsequent CSS variable overrides.
 

@@ -128,7 +128,7 @@ The remaining controls still work with the same group output. Use the local IDs 
 Limits a select control to a non-empty list of its option values, in display order. Keys are local control IDs. Unknown or duplicate options, omitted controls, and controls without options are errors. The original default is kept if allowed; otherwise the first option becomes the default. A value in `defaults` must also be allowed. See the [configuration example](control-groups.html#configure-a-group).
 
 
-Offer only Fill parent and Custom width. Because auto is no longer available, full becomes the initial choice.
+Offer only Full and Custom width. Because auto is no longer available, full becomes the initial choice.
 
 ```json
 {
@@ -186,14 +186,13 @@ These paths use the example ID `sizing`. Change that prefix if you choose anothe
 <h3 class="property-heading"><code>control.sizing.widthMode</code></h3>
 <div class="property-meta"><span class="property-type">String</span><span class="default">Default: auto</span><span>Responsive</span></div>
 
-One of `auto`, `full`, `fit`, `screen`, `breakpoint`, or `custom`.
+One of `auto`, `full`, `screen`, `breakpoint`, or `custom`.
 
 <ul>
 <li><code>auto</code> — CSS's automatic width. In ordinary block flow it fills the available width after margins, padding and borders; in flex and grid layouts its size also depends on the parent’s layout and alignment.</li>
-<li><code>full</code> — Fill parent. Uses stretch sizing to fill the available width while accounting for margins.</li>
-<li><code>fit</code> — shrink-wraps the content (<code>fit-content</code>).</li>
-<li><code>screen</code> — Viewport. Requests <code>100svw</code>, regardless of the parent. It can exceed the parent and does not automatically align or centre the part against the viewport.</li>
-<li><code>breakpoint</code> — Framework container. Fills available space up to the framework's container width for the current breakpoint, via <code>var(--foundry-container-width)</code>.</li>
+<li><code>full</code> — Full. Uses stretch sizing to fill the parent's available width while accounting for margins.</li>
+<li><code>screen</code> — Screen. Requests <code>100svw</code>, regardless of the parent. It can exceed the parent and does not automatically align or centre the part against the viewport.</li>
+<li><code>breakpoint</code> — Site width. Fills available space up to the site's content width for the current breakpoint, set in the framework and exposed as <code>var(--foundry-container-width)</code>.</li>
 <li><code>custom</code> — fills available space up to the pixel value from <code>customWidth</code> below. Max width can reduce this size but cannot enlarge it.</li>
 </ul>
 
@@ -242,7 +241,7 @@ The smallest width, as a framework spacing token or custom length. `none` emits 
 <h3 class="property-heading"><code>control.sizing.maxWidth</code></h3>
 <div class="property-meta"><span class="property-type">Framework spacing</span><span class="default">Default: none</span><span>Responsive</span></div>
 
-The largest width, as a framework spacing token or custom length. `none` emits `none` — CSS's own "no constraint" for this property. The composed CSS combines this limit with the selected width mode; you do not need to build that expression yourself.
+The largest width, as a framework spacing token or custom length. `none` emits `none` — CSS's own "no constraint" for this property. The inactive Custom mode starts at 1200px unless a custom default is declared; switching back and forth preserves the user's custom amount and unit. The composed CSS combines this limit with the selected width mode; you do not need to build that expression yourself.
 
 <h3 class="property-heading"><code>control.sizing.minHeight</code></h3>
 <div class="property-meta"><span class="property-type">Framework spacing</span><span class="default">Default: none</span><span>Responsive</span></div>
@@ -252,7 +251,7 @@ The smallest height, as a framework spacing token or custom length. `none` emits
 <h3 class="property-heading"><code>control.sizing.maxHeight</code></h3>
 <div class="property-meta"><span class="property-type">Framework spacing</span><span class="default">Default: none</span><span>Responsive</span></div>
 
-The largest height, as a framework spacing token or custom length. `none` emits `none` — CSS's own "no constraint" for this property.
+The largest height, as a framework spacing token or custom length. `none` emits `none` — CSS's own "no constraint" for this property. The inactive Custom mode starts at 800px unless a custom default is declared; switching back and forth preserves the user's custom amount and unit.
 
 ## Return value
 
@@ -266,15 +265,14 @@ The mapping it applies, and why:
 | Width mode | Composes |
 |---|---|
 | Auto | `width: auto` |
-| Fill parent | `width: -webkit-fill-available; width: -moz-available; width: stretch` |
-| Fit content | `width: fit-content` |
-| Viewport | `width: 100svw; max-width: none` |
-| Framework container | the `stretch` family, then `max-width: min(100%, var(--foundry-container-width))` |
+| Full | `width: -webkit-fill-available; width: -moz-available; width: stretch` |
+| Screen | `width: 100svw; max-width: none` |
+| Site width | the `stretch` family, then `max-width: min(100%, var(--foundry-container-width))` |
 | Custom | the `stretch` family, then `max-width: min(100%, <customWidth>px)` |
 
-Fill parent accounts for margins. Custom and Framework container also shrink when the parent has less room.
+Full accounts for margins. Custom and Site width also shrink when the parent has less room.
 
-`max-width: 100%` leads the width block as a parent-width limit. For Custom and Framework container, an additional Max width is combined with the mode's cap using `min(100%, <mode cap>, <maximum>)`, so it can only tighten the requested size. Viewport width escapes the parent limit unless Max width is set. These rules constrain the part's box; oversized descendants and an explicit Min width can still cause overflow.
+`max-width: 100%` leads the width block as a parent-width limit. For Custom and Site width, an additional Max width is combined with the mode's cap using `min(100%, <mode cap>, <maximum>)`, so it can only tighten the requested size. Screen width escapes the parent limit unless Max width is set. These rules constrain the part's box; oversized descendants and an explicit Min width can still cause overflow.
 
 | Height mode | Composes |
 |---|---|

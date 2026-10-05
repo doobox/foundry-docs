@@ -57,6 +57,8 @@ Use responsive values in CSS templates to generate breakpoint rules. HTML and Ja
 
 Slider requires an explicit numeric `defaults.base` within its range, just like Number. Image may omit `defaults` to start empty; its asset default is base-only. Note, Divider, Math and ChildPicker do not accept `defaults`; ChildPicker uses `initial` for its children.
 
+[SVG](svg-control.html) also starts empty when `defaults` is omitted. Unlike Image's URL value, SVG supplies sanitised inline markup for placement directly inside the template's HTML.
+
 <h2>Sections</h2>
 
 An entry in `inspector` without a `type` declares an Inspector section. It names the section once with `section`, optionally names its disclosure-header icon with `systemImage`, and lists the section's controls in its own `controls` array. Controls left at the top level of the part's `inspector` array belong to `Settings`:

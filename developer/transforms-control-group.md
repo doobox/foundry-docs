@@ -23,16 +23,26 @@ Add the group to the manifest's inspector:
 }
 ```
 
-Apply both outputs to the same element in instance-scoped CSS:
+Keep the root stationary as the hover trigger. Put the content in a transformable inner element:
 
-```css
-:instance { {{ control.transforms.css }} }
-:instance:hover { {{ control.transforms.hover.css }} }
+```html
+<section class="{{ part.class }}" {{ part.attributes }}>
+  <div class="transform-content">{{ text("body") }}</div>
+</section>
 ```
 
-Transforms apply to the selected element and its contents, without adding wrappers or forcing positioning. Use a block, inline-block, flex or grid element; ordinary non-replaced inline elements cannot be transformed.
+Apply both outputs to that inner element in instance-scoped CSS:
 
-For smooth hover changes, declare a [Transitions group](transitions-control-group.html), apply its CSS to the normal rule, and enable All or Transform. Transforms do not generate transitions themselves.
+```css
+:instance > .transform-content { {{ control.transforms.css }} }
+:instance:hover > .transform-content { {{ control.transforms.hover.css }} }
+```
+
+Transforms apply to the element receiving the declarations and its contents. The group does not add wrappers or force positioning. Use a block, inline-block, flex or grid element; ordinary non-replaced inline elements cannot be transformed.
+
+Built-in parts always transform their inner content, in both Static and Hover modes. Their roots remain stationary: root backgrounds, borders, shadows, sizing and positioning do not move. Flex and grid built-ins keep their content layout inside the transform target. Background video remains with the root. Using the root as the hover trigger prevents a translated or shrinking child from repeatedly cancelling and re-entering its own hover state. Do not apply the transform declarations to that trigger itself.
+
+For smooth hover changes, declare a [Transitions group](transitions-control-group.html), apply its CSS to the inner element's normal rule, and enable All or Transform. Transition declarations on the root alone do not animate the child. Transforms do not generate transitions themselves.
 
 Non-neutral transforms establish a stacking context and a containing block for positioned descendants, including fixed descendants. Neutral settings emit `transform: none`. Avoid applying JavaScript-driven transform animations such as Reveal to the same element: inline animation styles can override these rules.
 

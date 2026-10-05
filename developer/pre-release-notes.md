@@ -11,6 +11,7 @@ description: Highlights from Foundry preview builds distributed before public re
     <h1>Pre-release notes</h1>
     <p class="lede">A concise history of the preview builds shared with Foundry’s early developers. Each build includes everything listed in the builds before it.</p>
     <nav class="release-jump" aria-label="Jump to a preview build">
+        <a href="#build-16">Build 16</a>
         <a href="#build-15">Build 15</a>
         <a href="#build-14">Build 14</a>
         <a href="#build-12">Build 12</a>
@@ -31,6 +32,67 @@ description: Highlights from Foundry preview builds distributed before public re
 </div>
 
 <div class="release-timeline">
+    <article class="release-build" id="build-16">
+        <header class="release-build-header">
+            <div>
+                <span class="release-build-number">Build 16</span>
+                <h2>SVG, lightboxes, web video and more expressive hover states</h2>
+            </div>
+            <time datetime="2026-10-05">5 October 2026</time>
+        </header>
+        <p class="release-summary">Build 16 adds first-class inline SVG artwork, Lightbox and Bento Grid parts, direct and YouTube web video, configurable hover triggers, and clearer Inspector change indicators. It also replaces Container with Section, lets project fonts override framework fonts with the same name, and separates whole-part opacity from Shadow by moving it into the Filters state controls.</p>
+
+        <div class="callout breaking">
+            <h3>Breaking changes for packs and existing projects</h3>
+            <ul class="release-list">
+                <li><strong>Container is replaced by Section.</strong> The built-in identifier changes from <code>foundry.layout.container</code> to <code>foundry.layout.section</code>. Build 15 Container instances and pack rules that name the old identifier are not migrated automatically during the preview period; replace them with Section and update allowed-parent references.</li>
+                <li><strong>Whole-part opacity moved from Effects to Filters.</strong> Effects is now named Shadow and no longer supplies <code>control.effects.opacity</code>. Use <code>control.filters.filtersOpacity</code> for the normal state and <code>control.filters.filtersHoverOpacity</code> for the hovered state; previously saved Effects opacity must be set again.</li>
+                <li><strong>Built-in hover selectors are now configurable.</strong> Background, Filters and Transforms expose <code>control.&lt;group&gt;.hover.selector</code>. Packs that want Parent Part or Custom ID triggering must use that value in their hover rule; a hard-coded <code>:instance:hover</code> continues to mean This Part only.</li>
+            </ul>
+        </div>
+
+        <div class="release-groups">
+            <section class="release-group">
+                <h3>New parts and controls</h3>
+                <ul class="release-list">
+                    <li><strong>SVG.</strong> Import or drop an SVG as a dedicated part or declare an <a href="svg-control.html">SVG control</a>. Foundry sanitises the source and renders safe inline markup, allowing fill and stroke styling without treating the artwork as an image URL. Repeated templates can create SVG areas with <code>{{ svg("name") }}</code>.</li>
+                    <li><strong>Lightbox.</strong> The new Lightbox part and <a href="lightbox-control-group.html">Lightbox control group</a> provide an accessible overlay, close controls and the required published-page behaviour without hand-written JavaScript.</li>
+                    <li><strong>Bento Grid.</strong> A new built-in layout part provides a ready-made responsive bento arrangement for child parts.</li>
+                    <li><strong>Section.</strong> The full-width Section replaces Container, with constrained inner content and the same role as the page's primary structural wrapper.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Video on the web</h3>
+                <ul class="release-list">
+                    <li>Video controls can import a copy of a direct HTTP(S) movie up to 100 MB or link to it without adding it to Resources.</li>
+                    <li>YouTube watch, share, Shorts, live and embed URLs render through the privacy-enhanced player. <strong>Show poster first</strong> presents a thumbnail and Play button before loading the player, and a custom poster can replace the automatic YouTube thumbnail.</li>
+                    <li>The renderer, canvas and template primitive recognise YouTube sources consistently; video imports can be cancelled and report validation or download failures in the web-video popover.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Inspector and styling</h3>
+                <ul class="release-list">
+                    <li>Background, Filters and Transforms hover modes can be triggered by <strong>This Part</strong>, the nearest <strong>Parent Part</strong>, or an ancestor with a <strong>Custom ID</strong>. The generated hover selector is available to part templates.</li>
+                    <li>Effects is renamed <strong>Shadow</strong>. Whole-part opacity is a numeric value inside Filters, with independent Normal and Hovered values alongside the other filter controls.</li>
+                    <li>Section headers are marked only when their effective values differ from their defaults, and each changed control's label is highlighted so the source of a customised section is immediately visible.</li>
+                    <li>Adding or importing a part selects it and brings the Structure panel forward, keeping the new item visible in the page hierarchy.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Frameworks, canvas and fixes</h3>
+                <ul class="release-list">
+                    <li>A custom project font now overrides a framework font with the same name, so templates and controls resolve the user's intentional replacement.</li>
+                    <li>Parent hover resolves the nearest logical part ancestor even when canvas wrappers sit between the two parts.</li>
+                    <li>Dormant Shadow and Filters modes no longer make their Inspector sections appear changed, and hover-state opacity is stored and rendered with the state it belongs to.</li>
+                    <li>Canvas rendering and selection are more reliable for retained parts, media drops and newly inserted content.</li>
+                </ul>
+            </section>
+        </div>
+    </article>
+
     <article class="release-build" id="build-15">
         <header class="release-build-header">
             <div>
@@ -47,7 +109,7 @@ description: Highlights from Foundry preview builds distributed before public re
                 <li><strong>The <code>foundry.</code> identifier prefix is reserved.</strong> A pack whose <code>id</code> starts with <code>foundry.</code> is refused at load time with <em>“The 'foundry.' prefix is reserved for Foundry's own parts”</em>, whether or not validation is enabled. Rename the pack with your own reverse-DNS prefix.</li>
                 <li><strong>Background video is opt-in.</strong> Omitting <code>backgroundTypes</code> now offers colour, image and gradient only. A part that relied on the default to offer video must list <code>"video"</code> explicitly, insert <code>{{ control.background.video }}</code> as a direct child of a positioned, isolated host, and keep Layout from offering None or Static. <code>control.background.backgroundVideo</code> and <code>backgroundVideoLoop</code> are generated only when video is declared.</li>
                 <li><strong>Sizing's Fit content width mode is gone.</strong> <code>allowedOptions.widthMode</code> that lists <code>fit</code> fails validation; a stored <code>fit</code> renders as <code>width: auto</code>. The remaining modes are Auto, Full, Screen, Site width and Custom. Only the titles changed: <code>full</code>, <code>screen</code>, <code>breakpoint</code> and <code>custom</code> are the same values.</li>
-                <li><strong>Built-in whole-part links moved to the Link group.</strong> Container, Flexbox, Grid, Flex Item, Grid Item and Image no longer declare their own <code>destination</code> and <code>linkLabel</code> controls; they use <code>control.link.destination</code> and <code>control.link.accessibleName</code>. Existing links on these parts carry over.</li>
+                <li><strong>Built-in whole-part links moved to the Link group.</strong> Container, Flexbox, Grid, Flex Item, Grid Item and Image no longer declare their own <code>destination</code> and <code>linkLabel</code> controls; they use <code>control.link.destination</code> and <code>control.link.accessibleName</code>. Previously saved flat-key links must be set again in the Link section; there is no automatic migration during the preview period.</li>
                 <li><strong>Layout parts behave differently.</strong> Inside a Container, children keep their natural width — a button stays button-sized — rather than stretching; Flexbox starts empty and stacks vertically; Grid starts empty with start alignment and its column preview on. Pages built on Build 14 will lay out differently until their parts are revisited. Container's Content Spacing section and its Breakpoint width option are replaced by a single <strong>Container</strong> section with a <strong>Site Width</strong> option.</li>
             </ul>
         </div>

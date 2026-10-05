@@ -32,6 +32,18 @@ permalink: "/developer/video-control.html"
 
 ## Playback options
 
+The **Pick** button opens the Mac file picker. The adjacent link button opens **Video on the Web**, with **Import Copy** on the left and **Link** as the primary action on the right.
+
+**Link** accepts a direct HTTP(S) video-file URL or a YouTube video link without importing the movie. Direct files depend on the host and browser format support. They have no generated poster or local file metadata; the canvas shows a **Linked video** placeholder unless a custom poster is supplied. Vimeo page links are not supported.
+
+For YouTube, paste a watch, share, Shorts, live-video or embed URL. **Import Copy** is unavailable: Foundry embeds the video rather than downloading it. **Show poster first** defaults to on. The published page initially shows a poster with a Play button; activating it replaces the entire button and poster with YouTube's player and requests playback. Browser playback restrictions can still apply. Turning the option off loads the standard player directly.
+
+The poster defaults to the highest available YouTube thumbnail, with lower-resolution fallbacks. Use **Choose…** in the Poster row to supply your own image; **Clear** restores the automatic thumbnail. Custom posters are included in the site's assets. Automatic thumbnails require an internet connection and contact YouTube even before playback. `control.film.poster` returns the custom poster URL when selected, otherwise the preferred YouTube thumbnail URL. `control.film.posterFirst` is a Boolean, and `control.film.customPoster` indicates whether a poster was supplied to the renderer. YouTube controls its own player after activation; Foundry never leaves the poster above it. Controls, Loop and Start At apply to YouTube; Autoplay and Muted remain hidden. Background video remains limited to direct files.
+
+Use the standard `<video src="{{ control.film }}" ...></video>` pattern above for source-aware rendering. When the selection is YouTube, Foundry replaces that element with a styled wrapper containing a thumbnail on the canvas, and either the poster-first button or a privacy-enhanced YouTube iframe in preview and published output. The poster-first behaviour includes its required JavaScript automatically. Classes remain on the wrapper; style classes rather than relying on a `video` tag selector. Native-video children such as `<source>` and `<track>` do not apply to YouTube. The original URL remains available through the direct control value and `href`; placing that URL in arbitrary markup does not turn it into a playable video-file URL. The `video("name")` template primitive also recognises YouTube links, using a direct player. Embedding must be allowed by the video's owner, and privacy-enhanced mode still connects to YouTube.
+
+**Import Copy** downloads and validates a video file up to 100 MB, adds it to Resources, and uses the normal generated-poster workflow. Import failures appear in the popover. Closing the popover cancels an in-progress import.
+
 <p>The video control includes its complete playback experience; a part developer does not need to declare separate controls for these settings.</p>
 
 <section class="key-reference"><h3>Autoplay</h3><div class="key-meta"><span>Never or On page load</span><span>Default: Never</span></div><p>Controls whether Foundry emits the <code>autoplay</code> attribute. Browsers commonly require an autoplaying video to be muted.</p></section>

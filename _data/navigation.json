@@ -77,6 +77,10 @@
             "developer/image-control.html"
           ],
           [
+            "SVG",
+            "developer/svg-control.html"
+          ],
+          [
             "Link",
             "developer/link-control.html"
           ],
@@ -225,6 +229,10 @@
           [
             "Link",
             "developer/link-overlay-control-group.html"
+          ],
+          [
+            "Lightbox",
+            "developer/lightbox-control-group.html"
           ],
           [
             "Layout",

@@ -23,6 +23,10 @@ permalink: /developer/template-areas.html
 </dt>
 <dd>Creates an editable image area and an image drop target on the canvas. Once populated, it renders an <code>img.fd-image</code> element.</dd>
 <dt>
+<code>{{ svg("name") }}</code>
+</dt>
+<dd>Creates an SVG drop target on the canvas and renders sanitised inline artwork. Each repeated instance has its own selection. See <a href="svg-control.html">SVG</a> for supported artwork and safety restrictions.</dd>
+<dt>
 <code>{{ video("name") }}</code>
 </dt>
 <dd>Creates an editable video area and a video drop target on the canvas. Once populated, it renders a <code>video.fd-video</code> element with <code>controls</code> and <code>playsinline</code>; the canvas shows the movie&rsquo;s generated poster frame.</dd>

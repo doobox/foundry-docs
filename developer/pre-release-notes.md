@@ -40,14 +40,14 @@ description: Highlights from Foundry preview builds distributed before public re
             </div>
             <time datetime="2026-10-05">5 October 2026</time>
         </header>
-        <p class="release-summary">Build 16 adds first-class inline SVG artwork, Lightbox and Bento Grid parts, direct and YouTube web video, configurable hover triggers, and clearer Inspector change indicators. It also replaces Container with Section, lets project fonts override framework fonts with the same name, and separates whole-part opacity from Shadow by moving it into the Filters state controls.</p>
+        <p class="release-summary">Build 16 adds first-class inline SVG artwork, a Lightbox control group, direct and YouTube web video, configurable hover triggers, and clearer Inspector change indicators. It also replaces Container with Section, lets project fonts override framework fonts with the same name, and separates whole-part opacity from Shadow by moving it into the Filters state controls.</p>
 
         <div class="callout breaking">
             <h3>Breaking changes for packs and existing projects</h3>
             <ul class="release-list">
                 <li><strong>Container is replaced by Section.</strong> The built-in identifier changes from <code>foundry.layout.container</code> to <code>foundry.layout.section</code>. Build 15 Container instances and pack rules that name the old identifier are not migrated automatically during the preview period; replace them with Section and update allowed-parent references.</li>
                 <li><strong>Whole-part opacity moved from Effects to Filters.</strong> Effects is now named Shadow and no longer supplies <code>control.effects.opacity</code>. Use <code>control.filters.filtersOpacity</code> for the normal state and <code>control.filters.filtersHoverOpacity</code> for the hovered state; previously saved Effects opacity must be set again.</li>
-                <li><strong>Built-in hover selectors are now configurable.</strong> Background, Filters and Transforms expose <code>control.&lt;group&gt;.hover.selector</code>. Packs that want Parent Part or Custom ID triggering must use that value in their hover rule; a hard-coded <code>:instance:hover</code> continues to mean This Part only.</li>
+                <li><strong>Built-in hover selectors are now configurable.</strong> Background, Filters and Transforms expose <code>control.&lt;group&gt;.hover.selector</code>. Packs that want Parent Part or Part ID triggering must use that value in their hover rule; a hard-coded <code>:instance:hover</code> continues to mean This Part only.</li>
             </ul>
         </div>
 
@@ -56,8 +56,7 @@ description: Highlights from Foundry preview builds distributed before public re
                 <h3>New parts and controls</h3>
                 <ul class="release-list">
                     <li><strong>SVG.</strong> Import or drop an SVG as a dedicated part or declare an <a href="svg-control.html">SVG control</a>. Foundry sanitises the source and renders safe inline markup, allowing fill and stroke styling without treating the artwork as an image URL. Repeated templates can create SVG areas with <code>{{ svg("name") }}</code>.</li>
-                    <li><strong>Lightbox.</strong> The new Lightbox part and <a href="lightbox-control-group.html">Lightbox control group</a> provide an accessible overlay, close controls and the required published-page behaviour without hand-written JavaScript.</li>
-                    <li><strong>Bento Grid.</strong> A new built-in layout part provides a ready-made responsive bento arrangement for child parts.</li>
+                    <li><strong>Lightbox.</strong> The new <a href="lightbox-control-group.html">Lightbox control group</a> lets media parts and third-party custom-content parts provide an accessible overlay, close controls and the required published-page behaviour without hand-written JavaScript. Built-in Image, SVG and Video offer it; there is no separate built-in Lightbox part.</li>
                     <li><strong>Section.</strong> The full-width Section replaces Container, with constrained inner content and the same role as the page's primary structural wrapper.</li>
                 </ul>
             </section>
@@ -74,7 +73,7 @@ description: Highlights from Foundry preview builds distributed before public re
             <section class="release-group">
                 <h3>Inspector and styling</h3>
                 <ul class="release-list">
-                    <li>Background, Filters and Transforms hover modes can be triggered by <strong>This Part</strong>, the nearest <strong>Parent Part</strong>, or an ancestor with a <strong>Custom ID</strong>. The generated hover selector is available to part templates.</li>
+                    <li>Background, Filters and Transforms hover modes can be triggered by <strong>This Part</strong>, the nearest <strong>Parent Part</strong>, or any part on the page with a matching <strong>Part ID</strong>. The generated hover selector is available to part templates.</li>
                     <li>Effects is renamed <strong>Shadow</strong>. Whole-part opacity is a numeric value inside Filters, with independent Normal and Hovered values alongside the other filter controls.</li>
                     <li>Section headers are marked only when their effective values differ from their defaults, and each changed control's label is highlighted so the source of a customised section is immediately visible.</li>
                     <li>Adding or importing a part selects it and brings the Structure panel forward, keeping the new item visible in the page hierarchy.</li>

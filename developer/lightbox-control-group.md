@@ -40,7 +40,7 @@ A unique identifier, starting with a letter and using letters, numbers, undersco
 <h3 class="property-heading"><code>defaults</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: control defaults below</span></div>
 
-Override initial values by local control ID. For a dedicated Lightbox part, enable it initially:
+Override initial values by local control ID. For a custom-content part dedicated to opening a lightbox, enable it initially:
 
 ```json
 { "type": "lightbox", "id": "lightbox", "defaults": { "enabled": true } }
@@ -64,7 +64,7 @@ Canvas clicks continue to edit the part. Lightboxes open only in preview and pub
 
 ## Standalone parts and custom content
 
-The built-in Lightbox part has separate Trigger and Content areas. These are ordinary child-picker slots belonging to the part, not to the Lightbox control. Third-party developers use the same public hooks:
+A third-party standalone lightbox part can provide separate Trigger and Content areas. These are ordinary child-picker slots belonging to the part, not to the Lightbox control, and use the same public hooks:
 
 ```html
 <div class="{{ part.class }}" {{ part.attributes }}>

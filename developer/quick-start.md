@@ -10,8 +10,8 @@ permalink: "/developer/quick-start.html"
 <p class="lede">Start with an editable heading. Once it works, add framework controls and a place for child parts.</p>
 
 <div class="hero-actions">
-<a class="button" href="assets/downloads/Callout-starter.zip" download>Download starter</a>
-<a class="button secondary" href="assets/downloads/Callout-complete.zip" download>Download completed example</a>
+<a class="button" href="../assets/downloads/Callout-starter.zip" download>Download starter</a>
+<a class="button secondary" href="../assets/downloads/Callout-complete.zip" download>Download finished example</a>
 </div>
 
 Both downloads contain `Callout.foundrydevpack`. Unzip **one** to begin; they are two stages of the same part, not separate parts to install together. The downloads are generated from the snippets on this page.

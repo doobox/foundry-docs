@@ -53,6 +53,10 @@
             "developer/colour.html"
           ],
           [
+            "Collection",
+            "developer/collection-control.html"
+          ],
+          [
             "Corners",
             "developer/corners-control.html"
           ],

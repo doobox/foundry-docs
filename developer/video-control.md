@@ -54,17 +54,22 @@ Use the standard `<video src="{{ control.film }}" ...></video>` pattern above fo
 
 ## Properties
 
-<section class="key-reference"><h3><code>type</code></h3><div class="key-meta"><span>String</span><strong>Required</strong><span><code>video</code></span></div></section>
+<section class="key-reference"><h3><code>type</code></h3><div class="key-meta"><span>String</span><strong>Required</strong><span><code>video</code></span></div><p>A video control represents one video by default. Use <code>allowsMultiple</code> for an ordered video collection.</p></section>
 <section class="key-reference"><h3><code>id</code></h3><div class="key-meta"><span>String</span><strong>Required</strong></div><p>The unique control and template value name.</p></section>
 <section class="key-reference"><h3><code>label</code></h3><div class="key-meta"><span>String</span><span>Optional</span></div></section>
-<section class="key-reference"><h3><code>defaults</code></h3><div class="key-meta"><span>Dictionary</span><strong>Required</strong></div><p>Use an empty String for no selected video.</p></section>
+<section class="key-reference"><h3><code>defaults</code></h3><div class="key-meta"><span>Dictionary</span><span>Optional</span></div><p>Omit it to start empty. A single video uses an asset path String; with <code>allowsMultiple</code>, <code>base</code> is an array of video asset paths.</p></section>
+<section class="key-reference"><h3><code>allowsMultiple</code></h3><div class="key-meta"><span>Boolean</span><span>Optional</span><span>Default: false</span></div><p>Stores an ordered collection. Pick accepts multiple movies or one folder, and Video on the Web appends direct-video and YouTube URLs. The compact well shows an item count and opens an editor for reordering and removal. Playback settings are shared by the collection; custom posters are not edited in the main Inspector.</p></section>
+
+```json
+"allowsMultiple" : true
+```
 <section class="key-reference"><h3><code>tooltip</code></h3><div class="key-meta"><span>String</span><span>Optional</span></div></section>
 <section class="key-reference"><h3><code>visibleWhen</code></h3><div class="key-meta"><span>Dictionary</span><span>Optional</span></div><p>Conditionally shows the complete video row. A hidden row retains its selected value.</p></section>
 <section class="key-reference"><h3><code>valueAvailability</code></h3><div class="key-meta"><span>String</span><span>Optional</span><span>Default: always</span></div><p>Use <code>always</code> to keep this control's template value available while hidden, or <code>whenVisible</code> to make the value and its qualified derived values unavailable while <code>visibleWhen</code> is false. The stored value is preserved. <code>whenVisible</code> requires <code>visibleWhen</code>.</p></section>
 
 ## Template values
 
-<p><code>control.film</code> is the video's URL, empty when none is selected. The structured values below cover everything else:</p>
+<p><code>control.film</code> is the video's URL, empty when none is selected. With <code>allowsMultiple</code>, the direct value is an ordered array. Loop over it; every item exposes the same structured fields listed below as <code>item.href</code>, <code>item.source</code>, <code>item.poster</code> and so on. Playback fields use the collection's shared Inspector settings.</p>
 
 ```text
 control.film.source

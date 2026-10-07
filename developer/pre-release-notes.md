@@ -11,6 +11,7 @@ description: Highlights from Foundry preview builds distributed before public re
     <h1>Pre-release notes</h1>
     <p class="lede">A concise history of the preview builds shared with Foundry’s early developers. Each build includes everything listed in the builds before it.</p>
     <nav class="release-jump" aria-label="Jump to a preview build">
+        <a href="#build-17">Build 17</a>
         <a href="#build-16">Build 16</a>
         <a href="#build-15">Build 15</a>
         <a href="#build-14">Build 14</a>
@@ -32,6 +33,57 @@ description: Highlights from Foundry preview builds distributed before public re
 </div>
 
 <div class="release-timeline">
+    <article class="release-build" id="build-17">
+        <header class="release-build-header">
+            <div>
+                <span class="release-build-number">Build 17</span>
+                <h2>Collections, reusable typography and a Masonry Gallery</h2>
+            </div>
+            <time datetime="2026-10-07">7 October 2026</time>
+        </header>
+        <p class="release-summary">Build 17 adds an ordered-record Collection control, a responsive Typography control group and a built-in Masonry Gallery. Collection items use ordinary Foundry controls, remain editable at every breakpoint and can be selected directly from the canvas. Hover triggers can now follow any matching Part ID on the page, while renderer and filter fixes make conditional values and opacity output more precise.</p>
+
+        <div class="callout breaking">
+            <h3>Breaking changes for packs and existing projects</h3>
+            <ul class="release-list">
+                <li><strong>The standalone Bento Grid part is removed.</strong> Existing instances of <code>foundry.layout.bento-grid</code> and pack rules that name it are not migrated automatically during the preview period. Use Grid, Flexbox or the new Masonry Gallery as appropriate.</li>
+                <li><strong>The standalone Lightbox part is removed.</strong> Lightboxes are a capability supplied by the <a href="lightbox-control-group.html">Lightbox control group</a>, not a content part. Existing <code>foundry.content.lightbox</code> instances must be replaced with a media or custom-content part that declares the group.</li>
+                <li><strong>Effects no longer exposes opacity.</strong> The Effects group now emits only its framework shadow. Remove references to <code>control.effects.opacity</code> and use <code>control.filters.filtersOpacity</code> or <code>control.filters.filtersHoverOpacity</code> from the Filters group.</li>
+            </ul>
+        </div>
+
+        <div class="release-groups">
+            <section class="release-group">
+                <h3>Collections and Masonry Gallery</h3>
+                <ul class="release-list">
+                    <li><strong><a href="collection-control.html">Collection control.</a></strong> A pack can declare <code>type: collection</code> with a repeated <code>controls</code> array and optional <code>itemLabel</code>. Authors can add, duplicate, delete, reorder and select records while each record keeps the values of its text, media, link and other ordinary controls.</li>
+                    <li>Nested collection controls support their normal defaults, conditional visibility, value availability and responsive overrides. Collections cannot themselves be responsive or counted, and cannot contain another Collection, Child Picker or Math control.</li>
+                    <li>Templates receive collections as ordered arrays of structured records. <code>{{ loop.attributes }}</code> on a repeated item's outer element lets a canvas click select the matching record in the Inspector without adding published markup.</li>
+                    <li><strong>Masonry Gallery.</strong> The new built-in part uses a Collection to give every image its own focal point, crop shape, title, description and link. It supports responsive column counts and gaps, framework corner radii, below/overlay/hidden captions and separate typography for titles and descriptions.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Typography and styling</h3>
+                <ul class="release-list">
+                    <li><strong>Typography control group.</strong> Packs can declare <code>type: typography</code> to compose responsive font family, weight, style, size, line height, optional colour, alignment, decoration and capitalisation into <code>control.&lt;id&gt;.css</code>.</li>
+                    <li>Background, Filters and Transforms now label their external hover target as <strong>Part ID</strong>. The target may be any part on the page, rather than only an ancestor, and the generated selector activates while that part is hovered.</li>
+                    <li>Filters omit an unnecessary <code>opacity: 1</code> declaration when neither state changes opacity, avoiding an extra WebKit compositing path. Hover mode still emits both opacity states when either differs from 100%.</li>
+                </ul>
+            </section>
+
+            <section class="release-group">
+                <h3>Rendering, validation and fixes</h3>
+                <ul class="release-list">
+                    <li>The manifest schema and validator understand Collection fields, reject unsupported nesting and conflicting options, validate record defaults, and preserve stable item identity as records are reordered or duplicated.</li>
+                    <li>Collection media and link values resolve through the canvas and static-site renderers, imported assets inside records are counted correctly, and exact dotted keys remain addressable when templates traverse structured values.</li>
+                    <li><code>valueAvailability: whenVisible</code> is carried through adapted property definitions, so hidden conditional controls—including fields inside Collections—do not leak values into rendered templates.</li>
+                    <li>The Controls showcase includes working Collection and Typography examples, and canvas selection keeps the chosen collection item and its Inspector controls in sync.</li>
+                </ul>
+            </section>
+        </div>
+    </article>
+
     <article class="release-build" id="build-16">
         <header class="release-build-header">
             <div>
@@ -56,7 +108,11 @@ description: Highlights from Foundry preview builds distributed before public re
                 <h3>New parts and controls</h3>
                 <ul class="release-list">
                     <li><strong>SVG.</strong> Import or drop an SVG as a dedicated part or declare an <a href="svg-control.html">SVG control</a>. Foundry sanitises the source and renders safe inline markup, allowing fill and stroke styling without treating the artwork as an image URL. Repeated templates can create SVG areas with <code>{{ svg("name") }}</code>.</li>
-                    <li><strong>Lightbox.</strong> The new <a href="lightbox-control-group.html">Lightbox control group</a> lets media parts and third-party custom-content parts provide an accessible overlay, close controls and the required published-page behaviour without hand-written JavaScript. Built-in Image, SVG and Video offer it; there is no separate built-in Lightbox part.</li>
+                    <li><strong>Image Gallery.</strong> The new built-in Image Gallery uses an <a href="image-control.html">image control</a> with <code>allowsMultiple: true</code>. Its compact image well accepts multiple files or a folder, opens a thumbnail collection editor for reordering and removal, and exposes the ordered images as a template collection for <code>loop</code>. The part adds responsive columns, gap, image ratio and fit controls, plus None, Zoom in, Zoom out, Lift, Dim and Brighten thumbnail-hover presets with matching keyboard-focus treatment.</li>
+                    <li><strong>Video Gallery.</strong> The new built-in Video Gallery uses a <a href="video-control.html">video control</a> with <code>allowsMultiple: true</code>. It accepts multiple local movies, a folder, direct-video links and YouTube URLs; provides ordered collection editing with shared playback settings; and opens the collection through GLightbox.</li>
+                    <li><strong>Gallery lightboxes.</strong> The Lightbox group supports single media and image collections. Image lightboxes use bundled GLightbox 3 with its clean interface, Zoom opening and closing, Slide, Fade, Zoom or None gallery transitions, touch-follow and keyboard navigation, adjacent-image preloading and configurable looping. Foundry applies the shared Transitions group's duration and easing, backdrop colour and blur, plus a live counter and optional clickable thumbnail strip.</li>
+                    <li><strong>GLightbox library.</strong> Parts can request bundled GLightbox 3 with <code>{"id":"glightbox","majorVersion":3}</code>. Foundry publishes its JavaScript and standard stylesheet locally, exposes the normal <code>GLightbox</code> global, and requests it automatically for the Lightbox control group.</li>
+                    <li><strong>Lightbox.</strong> The new <a href="lightbox-control-group.html">Lightbox control group</a> lets media parts and third-party custom-content parts provide an accessible overlay, close controls and the required published-page behaviour without hand-written JavaScript. Built-in Image, Image Gallery, SVG and Video offer it; there is no separate built-in Lightbox part.</li>
                     <li><strong>Section.</strong> The full-width Section replaces Container, with constrained inner content and the same role as the page's primary structural wrapper.</li>
                 </ul>
             </section>

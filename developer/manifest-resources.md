@@ -45,6 +45,10 @@ permalink: "/developer/manifest-resources.html"
 <dd><a href="https://gsap.com/docs/v3/">GSAP</a>, exposed through the normal global <code>gsap</code> API. Core easing such as <code>power2.out</code>, <code>back.out(1.7)</code>, <code>elastic.out(1,0.3)</code> and <code>bounce.out</code> is available.</dd>
 <dt><code>gsapScrollTrigger</code> · major <code>3</code></dt>
 <dd><a href="https://gsap.com/docs/v3/Plugins/ScrollTrigger/">GSAP ScrollTrigger</a>, exposed through the normal global <code>ScrollTrigger</code> API. Requesting it automatically includes and loads <code>gsap</code> first. The <a href="reveal-control-group.html"><code>reveal</code> control group</a> requests both automatically.</dd>
+<dt><code>glightbox</code> · major <code>3</code></dt>
+<dd><a href="https://biati-digital.github.io/glightbox/">GLightbox 3</a>, exposed through its normal global <code>GLightbox</code> API with its standard stylesheet. It automatically includes locally bundled Plyr 3 for video playback. The <a href="lightbox-control-group.html"><code>lightbox</code> control group</a> requests it automatically.</dd>
+<dt><code>plyr</code> · major <code>3</code></dt>
+<dd><a href="https://plyr.io/">Plyr 3</a>, exposed through its normal global <code>Plyr</code> API and stylesheet. Requesting GLightbox includes it first, so lightbox video playback never needs to download the player runtime from a CDN.</dd>
 </dl>
 
 <p>Request one or more libraries with separate dictionaries:</p>

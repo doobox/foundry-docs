@@ -31,7 +31,7 @@ permalink: "/developer/image-control.html"
 
 ## Properties
 
-<section class="key-reference"><h3><code>type</code></h3><div class="key-meta"><span>String</span><strong>Required</strong><span><code>image</code></span></div><p>This control does not support <code>count</code>: an image control represents one named image. Declare each image property explicitly.</p></section>
+<section class="key-reference"><h3><code>type</code></h3><div class="key-meta"><span>String</span><strong>Required</strong><span><code>image</code></span></div><p>This control does not support <code>count</code>. It represents one image by default; use <code>allowsMultiple</code> when one named control should hold an ordered image collection.</p></section>
 
 ```json
 "type" : "image"
@@ -57,7 +57,7 @@ The text shown beside the media well in the Inspector.
 "label" : "Hero image"
 ```
 
-<section class="key-reference"><h3><code>defaults</code></h3><div class="key-meta"><span>Dictionary</span><span>Optional</span></div><p>Omit <code>defaults</code> to start empty. A non-empty <code>base</code> is a package-relative path and must reference a declared package asset, which is used until someone chooses their own image. Image asset defaults support <code>base</code> only; breakpoints apply to responsive selections, not defaults.</p></section>
+<section class="key-reference"><h3><code>defaults</code></h3><div class="key-meta"><span>Dictionary</span><span>Optional</span></div><p>Omit <code>defaults</code> to start empty. For one image, a non-empty <code>base</code> is a package-relative path and must reference a declared package asset. With <code>allowsMultiple</code>, <code>base</code> is an array of declared package-asset paths. Image asset defaults support <code>base</code> only; breakpoints apply to responsive selections, not defaults.</p></section>
 
 Declare the placeholder as a package asset, then use its path as the default:
 
@@ -75,6 +75,18 @@ Declare the placeholder as a package asset, then use its path as the default:
 }
 ```
 
+<section class="key-reference"><h3><code>allowsMultiple</code></h3><div class="key-meta"><span>Boolean</span><span>Optional</span><span>Default: false</span></div><p>Lets the control hold an ordered collection of images. The media well keeps its normal compact size, shows the first image with an item count, and opens a collection editor for adding, removing and reordering images. Pick accepts multiple files or one folder; a folder imports its image files in filename order. The template receives an array of structured image values, intended for a <code>loop</code>. <code>focalPoint</code> and <code>renditions</code> are not supported when <code>allowsMultiple</code> is true.</p></section>
+
+```json
+"allowsMultiple" : true
+```
+
+```html
+{{ loop control.gallery as item }}
+    <img src="{{ item.href }}" width="{{ item.width }}" height="{{ item.height }}" alt="">
+{{ endloop }}
+```
+
 <section class="key-reference"><h3><code>alt</code></h3><div class="key-meta"><span>String</span><span>Optional</span><span>Default: empty</span></div><p>The initial alternative text. Site authors edit the final text in the Inspector's Alt field. Only image controls accept <code>alt</code>.</p></section>
 
 ```json
@@ -85,7 +97,7 @@ Declare the placeholder as a package asset, then use its path as the default:
 <img src="{{ control.hero }}" alt="{{ control.hero.alt }}">
 ```
 
-<section class="key-reference"><h3><code>focalPoint</code></h3><div class="key-meta"><span>Boolean</span><span>Optional</span><span>Default: false</span></div><p>Declares that the part uses a focal point and provides the <code>position</code>, <code>focalPointX</code> and <code>focalPointY</code> template values. The Inspector adds a <strong>Focal Point</strong> button beneath Pick and Clear: turning it on shows a draggable marker over the preview, and turning it off hides the marker and returns the image to its centre, <code>50% 50%</code>. Only declare <code>focalPoint</code> when your template uses one of these values, so the button always has a visible effect. Declaring <code>focalPoint</code> makes the control responsive so the focal point can differ at each breakpoint. Only image controls accept <code>focalPoint</code>.</p></section>
+<section class="key-reference"><h3><code>focalPoint</code></h3><div class="key-meta"><span>Boolean</span><span>Optional</span><span>Default: false</span></div><p>Declares that the part uses a focal point and provides the <code>position</code>, <code>focalPointX</code> and <code>focalPointY</code> template values. The Inspector adds a <strong>Focal Point</strong> button beneath Pick and Clear: turning it on shows a draggable marker over the preview, and turning it off hides the marker and returns the image to its centre, <code>50% 50%</code>. Only declare <code>focalPoint</code> when your template uses one of these values, so the button always has a visible effect. Declaring <code>focalPoint</code> makes the control responsive so the focal point can differ at each breakpoint. Only image controls accept <code>focalPoint</code>, and it cannot be combined with <code>allowsMultiple</code>.</p></section>
 
 ```json
 "focalPoint" : true
@@ -102,7 +114,7 @@ Crop around the chosen point with `object-position`:
 }
 ```
 
-<section class="key-reference"><h3><code>renditions</code></h3><div class="key-meta"><span>Array of Dictionaries</span><span>Optional</span></div><p>Declares named scaled variants for templates that want smaller sources. Each dictionary requires a String <code>id</code> — starting with a letter, containing letters, digits, hyphens or underscores, and unique within the control — and an Integer <code>maximumDimension</code> greater than zero. Values above 3,840 are clamped to 3,840, Foundry's maximum stored image dimension. Only image controls accept <code>renditions</code>.</p></section>
+<section class="key-reference"><h3><code>renditions</code></h3><div class="key-meta"><span>Array of Dictionaries</span><span>Optional</span></div><p>Declares named scaled variants for templates that want smaller sources. Each dictionary requires a String <code>id</code> — starting with a letter, containing letters, digits, hyphens or underscores, and unique within the control — and an Integer <code>maximumDimension</code> greater than zero. Values above 3,840 are clamped to 3,840, Foundry's maximum stored image dimension. Only image controls accept <code>renditions</code>, and they cannot be combined with <code>allowsMultiple</code>.</p></section>
 
 ```json
 "renditions" : [
@@ -189,6 +201,8 @@ control.hero.aspectRatio
 <p><code>control.hero.href</code> returns the same path as the direct value: the exported image path in preview and published output, and both are empty when no image is selected. <code>control.hero.position</code> returns the focal point as a CSS position such as <code>50% 50%</code>, ready for <code>object-position</code> or <code>background-position</code>; <code>focalPointX</code> and <code>focalPointY</code> are the same coordinates as numbers from 0 to 100. <code>control.hero.rendition.myRendition</code> returns the path of that declared rendition — a copy whose longest side does not exceed the rendition's <code>maximumDimension</code>, or the original image when it is already small enough. Its <code>width</code> and <code>height</code> are that copy's pixel size, or the original's when no copy is needed, and are empty when the image's size is unknown. The editing canvas always uses the full-size image but reports the same rendition sizes.</p>
 
 <p><code>width</code> and <code>height</code> are the stored pixel dimensions. Dimensions, aspect ratio and file metadata are empty when that metadata is unavailable. Imported images are stored with a longest side of at most 3,840 pixels.</p>
+
+<p>When <code>allowsMultiple</code> is true, <code>control.hero</code> is an ordered array rather than one path. Loop over it with an alias. Each item provides <code>href</code>, <code>width</code>, <code>height</code>, <code>aspectRatio</code>, <code>filename</code>, <code>extension</code>, <code>mimeType</code> and <code>byteCount</code>. The item also provides an empty <code>alt</code>, centred focal-point values and <code>position</code> for a consistent structured shape, but multiple-image controls do not expose per-item Alt or focal-point editors.</p>
 
 ### Examples
 

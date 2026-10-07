@@ -7,7 +7,7 @@ permalink: /developer/effects-control-group.html
 {% endraw %}{% include breadcrumbs.html %}{% raw %}
 <p class="eyebrow">manifest.json · inspector · control groups</p>
 <h1>Effects</h1>
-<p class="lede">Add a shadow and control opacity.</p>
+<p class="lede">Add a framework shadow with an enable switch and CSS-ready output.</p>
 
 ## Quick example
 
@@ -31,7 +31,7 @@ Add this to your instance-scoped CSS file:
 :instance { {{ control.effects.css }} }
 ```
 
-The group starts disabled. Its CSS converts the opacity percentage into the fraction CSS expects, and restores normal opacity when disabled.
+The group starts disabled. Its CSS emits the selected framework shadow when enabled and restores `box-shadow: none` when disabled.
 
 The `id` is required. This page uses `effects`, so every template path starts with `control.effects.`. Choose a different ID when you need another instance of the same group.
 
@@ -82,7 +82,7 @@ This only demonstrates the renamed output; keep any structural CSS from the quic
 <h3 class="property-heading"><code>defaults</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: generated defaults</span></div>
 
-Replaces complete base defaults using `effectsEnabled`, `frameworkShadow`, or `opacity`.
+Replaces complete base defaults using `effectsEnabled` or `frameworkShadow`.
 
 
 For example, change the starting settings:
@@ -93,7 +93,7 @@ For example, change the starting settings:
     "id": "effects",
     "defaults": {
         "effectsEnabled": true,
-        "opacity": 85
+        "frameworkShadow": "md"
     }
 }
 ```
@@ -106,19 +106,9 @@ These are initial values, not locked settings. The author can still change the c
 Removes controls this part does not need. Use unique local IDs, without the group prefix. Dependent controls are removed too: omitting a mode also removes fields that only configure that mode. Omitted controls have no template value. You cannot explicitly omit every control; remove the group instead.
 
 
-Offer opacity without a shadow control.
+This group has only its enable switch and shadow picker. Excluding `frameworkShadow` would leave a switch with no CSS declaration to control, so there is normally no useful subset. Remove the group when the part does not need a shadow.
 
-```json
-{
-    "type": "effects",
-    "id": "effects",
-    "excludeControls": [
-        "frameworkShadow"
-    ]
-}
-```
-
-The remaining controls still work with the same group output. Use the local IDs shown above—not full paths such as `control.effects.frameworkShadow`.
+If you do use `excludeControls`, use local IDs—not full paths such as `control.effects.frameworkShadow`.
 
 <h3 class="property-heading"><code>allowedOptions</code></h3>
 <div class="property-meta"><span class="property-type">Dictionary</span><span class="optional">Optional</span><span class="default">Default: all options</span></div>
@@ -171,39 +161,25 @@ These paths use the example ID `effects`. Change that prefix if you choose anoth
 <h3 class="property-heading"><code>control.effects.effectsEnabled</code></h3>
 <div class="property-meta"><span class="property-type">Boolean</span><span class="default">Default: false</span><span>Responsive</span></div>
 
-Shows or hides Shadow and Opacity. Templates must check the value explicitly.
+Shows or hides Shadow. Templates must check the value explicitly.
 
 <h3 class="property-heading"><code>control.effects.frameworkShadow</code></h3>
 <div class="property-meta"><span class="property-type">Framework shadow</span><span class="default">Default: none</span><span>Responsive</span></div>
 
 A framework shadow with the structured output documented by the [Framework shadow control](framework-shadow-control.html).
 
-<h3 class="property-heading"><code>control.effects.opacity</code></h3>
-<div class="property-meta"><span class="property-type">Number</span><span class="default">Default: 100</span><span>Responsive</span></div>
-
-An integer percentage from 0 through 100. The template value is the number, not a CSS fraction or percentage string.
-
 ## Return value
 
 <h3 class="property-heading"><code>control.effects.css</code></h3>
 <div class="property-meta"><span class="property-type">CSS declarations</span></div>
 
-`box-shadow` and `opacity`, in one value, with the percentage already divided into a CSS fraction — `85` composes as `opacity: 0.85`. While `effectsEnabled` is false it resets to `none` and `1`. A group narrowed with `excludeControls` composes only the declarations it still generates.
+One `box-shadow` declaration. While `effectsEnabled` is false it resets to `box-shadow: none`. A group narrowed with `excludeControls` composes only the declarations it still generates.
 
 <h3 class="property-heading">Individual values</h3>
 
 - `control.effects.effectsEnabled`: Boolean.
 - `control.effects.frameworkShadow`: a CSS-ready `box-shadow` String, or `none`.
-- `control.effects.opacity`: a Number from 0 through 100 — **not** a CSS value.
 
 The shadow is a flat String with no qualified fields, as documented by the [Framework shadow control](framework-shadow-control.html). A framework choice resolves to a variable reference; a custom shadow resolves to its comma-separated layers; an untouched or missing choice resolves to `none`, so it can be interpolated unguarded.
-
-If you write opacity yourself, divide by 100 and handle the disabled state:
-
-```css
-:instance {
-    opacity: {{ if control.effects.effectsEnabled }}calc({{ control.effects.opacity }} / 100){{ else }}1{{ endif }};
-}
-```
 
 {% endraw %}

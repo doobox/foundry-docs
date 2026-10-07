@@ -85,7 +85,13 @@ for name, source in sources.items():
             if kind is None and "group" in item and ("controls" in item or "systemImage" in item) and "id" not in item and "title" not in item:
                 fail(location, "retired section wrapper key group; name the section with section")
                 continue
-            if "controls" in item and isinstance(item["controls"], list) and "section" not in item:
+            if (
+                "controls" in item
+                and isinstance(item["controls"], list)
+                and "section" not in item
+                and kind != "collection"
+                and name != "collection-control.md"
+            ):
                 fail(location, "retired controls array; the Inspector array is now inspector")
             if kind is None and "section" in item and "id" not in item and "title" not in item:
                 # An inspector entry without a type is an Inspector section wrapper.
